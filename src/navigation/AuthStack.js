@@ -184,7 +184,7 @@ function Splashscreen({navigation})
 {
 setTimeout(()=> {
     navigation.replace('Onboard')
-},5000);
+},2500);
 return(
     <ImageBackground source={require('../assets/images/splash-onboard.gif')} style={{flex:1}} />
 )
@@ -205,11 +205,9 @@ const AuthStack = ({ navigation }) => {
       headerShown: false, // change this to `false`
     }}/>
             <Stack.Screen name="Home" component={BottomTabs} options={{ headerShown: false, title: '' }} />
-            <Stack.Screen name="Onboard" component={Onboard} options={{
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-                BottomTabs: false,
+            <Stack.Screen name="Onboard" component={Onboard} options={{ headerShown: false }}
                 
-            }} />
+            />
 
 <Stack.Screen name="Profile" component={Profile} options={{
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
