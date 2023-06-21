@@ -100,6 +100,7 @@ const BottomTabs = ({ navigation }) => {
                 BottomTabs: false,
                 unmountOnBlur: true,
                 title: '',
+                tabBarScrollEnabled: true,
                 tabBarIcon: ({ focused }) => (
                     <View style={[styles.tabLink, focused ? styles.active : styles.tabLink]}>
                         <ShoppingBag style={{
@@ -124,7 +125,7 @@ const BottomTabs = ({ navigation }) => {
                 options={{
                     BottomTabs: false,
                     title: 'Login',
-                    tabBarStyle: {display: 'none'},
+                    // tabBarStyle: {display: 'none'},
                     tabBarIcon: ({ focused }) => (
                         <View style={[styles.tabLink, focused ? styles.active : styles.tabLink]}>
                             <Users style={{
@@ -164,7 +165,7 @@ const BottomTabs = ({ navigation }) => {
                             </View>
     
                         ),
-                        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                        // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
                         headerLeft: () => (
                             <TouchableOpacity onPress={() => { navigation.goBack() }}>
                                 <View style={styles.backArrow}>
@@ -184,9 +185,9 @@ function Splashscreen({navigation})
 {
 setTimeout(()=> {
     navigation.replace('Onboard')
-},5000);
+},4100);
 return(
-    <ImageBackground source={require('../assets/images/LOW-INTRO.gif')} style={{flex:1}} />
+    <ImageBackground source={require('../assets/images/splash-onboard.gif')} style={{flex:1}} />
 )
 }
 const AuthStack = ({ navigation }) => {
@@ -205,9 +206,10 @@ const AuthStack = ({ navigation }) => {
       headerShown: false, // change this to `false`
     }}/>
             <Stack.Screen name="Home" component={BottomTabs} options={{ headerShown: false, title: '' }} />
-            <Stack.Screen name="Onboard" component={Onboard} options={{ headerShown: false }}
+            <Stack.Screen name="Onboard" component={Onboard}  
+                options={{ headerShown: false, title: '' }}/> 
                 
-            />
+           
 
 <Stack.Screen name="Profile" component={Profile} options={{
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
