@@ -22,7 +22,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useEffect, useState, useCallback} from 'react';
 import {ShoppingCart} from "react-native-feather";
 import Profile from '../screens/Profile';
-// import Onboard from '../screens/Onboard';
+import OTP from '../screens/Otp';
 
 
 //WithDrawRefferal
@@ -184,9 +184,9 @@ function Splashscreen({navigation})
 {
 setTimeout(()=> {
     navigation.replace('Onboard')
-},2500);
+},5000);
 return(
-    <ImageBackground source={require('../assets/images/splash-onboard.gif')} style={{flex:1}} />
+    <ImageBackground source={require('../assets/images/LOW-INTRO.gif')} style={{flex:1}} />
 )
 }
 const AuthStack = ({ navigation }) => {
@@ -220,9 +220,13 @@ const AuthStack = ({ navigation }) => {
                     </TouchableOpacity>
                 )
             }} />
+
+<Stack.Screen name="OTP" component={OTP} options={{ headerShown: false }} />
       
 
         </Stack.Navigator>
+
+        
     );
 };
 const styles = StyleSheet.create({
