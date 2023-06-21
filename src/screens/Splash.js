@@ -1,20 +1,18 @@
-import React, { Component, useEffect } from 'react';
-import { View, Text } from 'react-native';
-import MainNavigator from '../navigation/MainNavigator';
-const Splash = ({navigation}) => {
+import React, {useEffect} from 'react';
+import {ImageBackground} from 'react-native';
 
-    useEffect(()=> {
-   setTimeout(()=>{
-    navigation.navigate('MainNavigator');
-   },2000);
-    },[]);
-    return (
-       <View>
-        <Text>
-            Splash
-        </Text>
-        </View>
-    );
-};
-export default Splash;
+function SplashScreen({navigation}) {
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.replace('Signup');
+    }, 2500);
+  }, []);
 
+  return (
+    <ImageBackground
+      source={require('../assets/images/LOW-INTRO.gif')}
+      style={{flex: 1}}
+    />
+  );
+}
+export default SplashScreen;
