@@ -22,7 +22,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useEffect, useState, useCallback} from 'react';
 import {ShoppingCart} from "react-native-feather";
 import Profile from '../screens/Profile';
-// import Onboard from '../screens/Onboard';
+import OTP from '../screens/Otp';
 
 
 //WithDrawRefferal
@@ -186,7 +186,7 @@ setTimeout(()=> {
     navigation.replace('Onboard')
 },5000);
 return(
-    <ImageBackground source={require('../assets/images/splash-onboard.gif')} style={{flex:1}} />
+    <ImageBackground source={require('../assets/images/LOW-INTRO.gif')} style={{flex:1}} />
 )
 }
 const AuthStack = ({ navigation }) => {
@@ -205,11 +205,9 @@ const AuthStack = ({ navigation }) => {
       headerShown: false, // change this to `false`
     }}/>
             <Stack.Screen name="Home" component={BottomTabs} options={{ headerShown: false, title: '' }} />
-            <Stack.Screen name="Onboard" component={Onboard} options={{
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-                BottomTabs: false,
+            <Stack.Screen name="Onboard" component={Onboard} options={{ headerShown: false }}
                 
-            }} />
+            />
 
 <Stack.Screen name="Profile" component={Profile} options={{
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
@@ -222,9 +220,13 @@ const AuthStack = ({ navigation }) => {
                     </TouchableOpacity>
                 )
             }} />
+
+<Stack.Screen name="OTP" component={OTP} options={{ headerShown: false }} />
       
 
         </Stack.Navigator>
+
+        
     );
 };
 const styles = StyleSheet.create({
