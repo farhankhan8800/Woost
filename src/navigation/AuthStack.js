@@ -133,6 +133,7 @@ const BottomTabs = ({navigation}) => {
           BottomTabs: false,
           unmountOnBlur: true,
           title: '',
+          tabBarScrollEnabled: true,
           tabBarIcon: ({focused}) => (
             <View
               style={[
@@ -171,7 +172,7 @@ const BottomTabs = ({navigation}) => {
         options={{
           BottomTabs: false,
           title: 'Login',
-          tabBarStyle: {display: 'none'},
+          // tabBarStyle: {display: 'none'},
           tabBarIcon: ({focused}) => (
             <View
               style={[
@@ -190,6 +191,46 @@ const BottomTabs = ({navigation}) => {
             </View>
           ),
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <View style={styles.backArrow}>
+                <Image
+                  source={require('../assets/images/backArrow.png')}
+                  style={styles.backIcon}
+                />
+              </View>
+            </TouchableOpacity>
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Login"
+        component={Profile}
+        options={{
+          BottomTabs: false,
+          tabBarStyle: {display: 'none'},
+          tabBarIcon: ({focused}) => (
+            <View
+              style={[
+                styles.tabLink,
+                focused ? styles.active : styles.tabLink,
+              ]}>
+              <User
+                style={{
+                  width: 26,
+                  height: 26,
+                  color: 'black',
+                  resizeMode: 'contain',
+                  tintColor: focused ? '#333' : 'black',
+                }}
+              />
+            </View>
+          ),
+          // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -249,6 +290,17 @@ const BottomTabs = ({navigation}) => {
   );
 };
 
+function Splashscreen({navigation}) {
+  setTimeout(() => {
+    navigation.replace('Onboard');
+  }, 4100);
+  return (
+    <ImageBackground
+      source={require('../assets/images/splash-onboard.gif')}
+      style={{flex: 1}}
+    />
+  );
+}
 const AuthStack = ({navigation}) => {
   return (
     <Stack.Navigator
@@ -261,10 +313,10 @@ const AuthStack = ({navigation}) => {
           fontWeight: '900',
         },
       }}
-      initialRouteName={SplashScreen}>
+      initialRouteName={Splashscreen}>
       <Stack.Screen
         name="Splashscreen"
-        component={SplashScreen}
+        component={Splashscreen}
         options={{
           headerShown: false, // change this to `false`
         }}
@@ -277,18 +329,9 @@ const AuthStack = ({navigation}) => {
       <Stack.Screen
         name="Onboard"
         component={Onboard}
-        options={{headerShown: false}}
+        options={{headerShown: false, title: ''}}
       />
-      <Stack.Screen
-        name="Signup"
-        component={SignUp}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Otp"
-        component={EnterOTP}
-        options={{headerShown: false}}
-      />
+
       <Stack.Screen
         name="Profile"
         component={Profile}

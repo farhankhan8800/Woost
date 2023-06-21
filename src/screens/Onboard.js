@@ -57,7 +57,7 @@ const ENDPOINT = "/user/register";
                        app_device_id : app_device_id
                       });
                       if (data.token) {
-                        console.log('response',data)
+                        // console.log('device_id',app_device_id)
                         setSuccess(data.message)
                         await AsyncStorage.setItem('registerToken', data.token);
                         await AsyncStorage.setItem('phone', values.phone);
@@ -206,7 +206,7 @@ const ENDPOINT = "/user/register";
                         </View>
                       </View> */}
                       <View style={styles.newLogin}>
-                        <Text style={[styles.font16, styles.RegisterLink]} onPress={() => navigation.navigate('Login')}>Login</Text>
+                        <Text style={[styles.font16, styles.RegisterLink]} onPress={() => navigation.navigate('OTP')}>Login</Text>
                       </View>
                     </View>
                   </View>
