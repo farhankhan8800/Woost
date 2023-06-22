@@ -20,7 +20,7 @@ const OTPin = props => {
             key={i}
             maxLength={1}
             keyboardType="numeric"
-            placeholder="*"
+            placeholder="0"
             ref={ref => {
               refs.current[i] = ref;
             }}
@@ -44,98 +44,29 @@ const OTPin = props => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 24,
-    backgroundColor: '#FFFFFF',
-    flex: 1,
-  },
-  imageContainer: {
-    alignItems: centerContainer.alignCenter,
-  },
-  headingSize: {
-    fontSize: fontSize.headingFont,
-    fontWeight: '900',
-  },
-  logo: {
-    height: 128,
-    width: 128,
-  },
   inputBoxContainer: {
     position: 'relative',
-    marginTop: 30,
+    marginTop: 10,
   },
-  icon: {
-    position: 'absolute',
-    top: 36,
-    left: 20,
-  },
+
   inputText: {
     padding: 10,
     borderWidth: inputBox.borderWidth,
-    marginTop: inputBox.marginTop,
-    borderColor: inputBox.borderColor,
+    margin: 5,
+    borderColor: '#0A8AFF',
     borderRadius: inputBox.borderRadius,
     color: '#333333',
-    width: 55,
-    height: 55,
+    width: 45,
+    height: 45,
     justifyContent: 'center',
     alignItems: 'center',
     fontWeight: 'bold',
     alignContent: 'center',
     textAlign: 'center',
-    fontSize: 30,
-    backgroundColor: '#f0f0f0',
-  },
-
-  lableFont: {
-    fontSize: fontSize.inputFont,
-  },
-  forgotPassword: {
-    color: fontColor.linkColor,
-    fontSize: fontSize.inputFont,
-    fontWeight: '700',
-    marginTop: commonMargin.marginTop,
-    justifyContent: 'flex-end',
-  },
-  passwordContainer: {
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-  },
-  loginButton: {
-    alignItems: centerContainer.alignCenter,
-    justifyContent: centerContainer.justifyCenter,
-    backgroundColor: '#F27935',
-    padding: 10,
-    marginTop: 30,
-    borderRadius: 6,
-    fontWeight: 'bold',
-    height: 50,
-  },
-  loginTxt: {
-    fontSize: fontSize.headingFont,
-    fontWeight: '900',
-    color: '#fff',
-  },
-
-  font14: {
-    fontSize: 14,
-  },
-  font16: {
     fontSize: 16,
+    backgroundColor: '#fff',
   },
-  forgotParagraph: {
-    fontSize: fontSize.lableFont,
-    marginTop: commonMargin.margin10,
-  },
-  innerPara: {
-    lineHeight: 25,
-    fontSize: fontSize.lableFont,
-  },
-  registeredNumber: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginTop: 7,
-  },
+
   otpBoxContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',

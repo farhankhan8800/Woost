@@ -62,24 +62,34 @@ const EnterOTP = ({navigation}) => {
     <KeybaordAvoidingWrapper>
       <View style={styles.container}>
         <View style={styles.imageContainer}>
-          <Image source={require('../assets/images/login-image.png')} />
+          <Image source={require('../assets/images/otp-screen.png')} />
         </View>
-        <View>
-          <Text style={[styles.headingSize]}>Verify OTP</Text>
-        </View>
-        <View style={styles.forgotParagraph}>
-          <Text style={styles.innerPara}>An 6 digit code has been send to</Text>
-          <Text style={styles.registeredNumber}>+ 91 {mobile}</Text>
-        </View>
-        <View>
-          <OTPin
-            in={6}
-            onDone={otp => {
-              verifyOTP(otp);
-            }}></OTPin>
-        </View>
-        <View style={styles.inputView}>
-          <View style={styles.passwordContainer}></View>
+        <View style={styles.containerContant}>
+          <View style={styles.containerContantInner}>
+            <View>
+              <Text style={[styles.headingSize]}>Verify OTP</Text>
+            </View>
+            <View style={styles.forgotParagraph}>
+              <Text style={styles.innerPara}>
+                We've Sent You The Verification Code At
+              </Text>
+
+              <Text style={styles.registeredNumber}>+ 91 88600 *****</Text>
+              {/* <Text style={styles.registeredNumber}>+ 91 {mobile}</Text> */}
+            </View>
+            <View>
+              <Text style={styles.errorInput}>
+                Invalid OTP Please Try Again
+              </Text>
+            </View>
+            <View>
+              <OTPin
+                in={6}
+                onDone={otp => {
+                  verifyOTP(otp);
+                }}></OTPin>
+            </View>
+          </View>
         </View>
       </View>
     </KeybaordAvoidingWrapper>
@@ -88,30 +98,33 @@ const EnterOTP = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
     backgroundColor: '#FFFFFF',
+    justifyContent: 'flex-start',
     flex: 1,
   },
   imageContainer: {
     alignItems: centerContainer.alignCenter,
   },
-  headingSize: {
-    fontSize: fontSize.headingFont,
-    fontWeight: '900',
+  containerContant: {
+    position: 'relative',
   },
-  logo: {
-    height: 128,
-    width: 128,
+  containerContantInner: {
+    position: 'absolute',
+    top: -120,
+    left: 46,
+  },
+  headingSize: {
+    fontSize: 32,
+    fontWeight: '800',
+    color: '#222222',
+    letterSpacing: 1,
+    marginBottom: 10,
   },
   inputBoxContainer: {
     position: 'relative',
     marginTop: 30,
   },
-  icon: {
-    position: 'absolute',
-    top: 36,
-    left: 20,
-  },
+
   inputText: {
     padding: 10,
     borderWidth: inputBox.borderWidth,
@@ -133,17 +146,7 @@ const styles = StyleSheet.create({
   lableFont: {
     fontSize: fontSize.inputFont,
   },
-  forgotPassword: {
-    color: fontColor.linkColor,
-    fontSize: fontSize.inputFont,
-    fontWeight: '700',
-    marginTop: commonMargin.marginTop,
-    justifyContent: 'flex-end',
-  },
-  passwordContainer: {
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-  },
+
   loginButton: {
     alignItems: centerContainer.alignCenter,
     justifyContent: centerContainer.justifyCenter,
@@ -154,25 +157,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     height: 50,
   },
-  loginTxt: {
-    fontSize: fontSize.headingFont,
-    fontWeight: '900',
-    color: '#fff',
-  },
 
-  font14: {
-    fontSize: 14,
-  },
-  font16: {
-    fontSize: 16,
-  },
   forgotParagraph: {
     fontSize: fontSize.lableFont,
     marginTop: commonMargin.margin10,
   },
   innerPara: {
-    lineHeight: 25,
-    fontSize: fontSize.lableFont,
+    lineHeight: 19,
+    fontSize: 19,
   },
   registeredNumber: {
     fontSize: 20,
@@ -183,6 +175,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     justifyCenter: 'center',
+  },
+  errorInput: {
+    color: 'red',
+    marginTop: 10,
+    fontSize: 17,
   },
 });
 
