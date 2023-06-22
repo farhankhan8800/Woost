@@ -70,59 +70,68 @@ const SignUp = ({navigation}) => {
         {({values, handleChange, errors, touched, handleSubmit}) => (
           <View style={styles.container}>
             <View style={styles.imageContainer}>
-              <Image source={require('../assets/images/login-image.png')} />
+              <Image
+                source={require('../assets/images/login-page-image.png')}
+              />
             </View>
-            <View>
-              <Text style={[styles.headingSize]}>Sign Up</Text>
-            </View>
-            <View>
-              <Text style={[styles.lableFont]}>Enetr Your Phone Number</Text>
-            </View>
-            <View>
-              <View style={styles.inputBoxContainer}>
-                <View style={styles.inputBoxInner}>
-                  <TextInput
-                    autoCapitalize="none"
-                    style={styles.inputTextCode}
-                    value="+91"
-                    keyboardType="numeric"
-                    maxLength={4}
-                    editable={false}
-                    placeholderTextColor="#666"
-                    onChangeText={handleChange('countryCode')}
-                  />
-                  <TextInput
-                    maxLength={10}
-                    autoCapitalize="none"
-                    keyboardType="numeric"
-                    style={styles.inputText}
-                    value={values.phone}
-                    placeholderTextColor="#666"
-                    onChangeText={handleChange('phone')}
-                    placeholder="Phone Number"
-                  />
+            <View style={styles.contantContainer}>
+              <View style={styles.contantContainerInner}>
+                <View>
+                  <Text style={[styles.headingSize]}>Sign Up</Text>
                 </View>
                 <View>
-                  {touched.phone && errors.phone && (
-                    <Text style={styles.error}>{errors.phone}</Text>
-                  )}
+                  <Text style={[styles.lableFont]}>
+                    Enter Your Phone Number
+                  </Text>
                 </View>
-              </View>
-              <View style={styles.loginButtonBox}>
-                <TouchableOpacity onPress={() => navigation.navigate('Otp')}>
-                  {/* handleSubmit */}
-                  <View style={styles.loginButton}>
-                    <Text style={styles.loginTxt}>Request OTP</Text>
+                <View>
+                  <View style={styles.inputBoxContainer}>
+                    <View style={styles.inputBoxInner}>
+                      <TextInput
+                        autoCapitalize="none"
+                        style={styles.inputTextCode}
+                        value="+91"
+                        keyboardType="numeric"
+                        maxLength={4}
+                        editable={false}
+                        placeholderTextColor="#666"
+                        onChangeText={handleChange('countryCode')}
+                      />
+                      <TextInput
+                        maxLength={10}
+                        autoCapitalize="none"
+                        keyboardType="numeric"
+                        style={styles.inputText}
+                        value={values.phone}
+                        placeholderTextColor="#666"
+                        onChangeText={handleChange('phone')}
+                        placeholder="Phone Number"
+                      />
+                    </View>
+                    <View>
+                      {touched.phone && errors.phone && (
+                        <Text style={styles.error}>{errors.phone}</Text>
+                      )}
+                    </View>
                   </View>
-                </TouchableOpacity>
-              </View>
+                  <View style={styles.loginButtonBox}>
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('Otp')}>
+                      {/* handleSubmit */}
+                      <View style={styles.loginButton}>
+                        <Text style={styles.loginTxt}>Request OTP</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
 
-              <View style={styles.newLogin}>
-                <Text
-                  onPress={() => navigation.navigate('Home')}
-                  style={[styles.font16, styles.newLoginText]}>
-                  Terms Condition & Privacy Policy
-                </Text>
+                  <View style={styles.newLogin}>
+                    <Text
+                      onPress={() => navigation.navigate('Home')}
+                      style={[styles.font16, styles.newLoginText]}>
+                      Terms Condition & Privacy Policy
+                    </Text>
+                  </View>
+                </View>
               </View>
             </View>
           </View>
@@ -134,16 +143,24 @@ const SignUp = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
     backgroundColor: '#FFFFFF',
     flex: 1,
-    justifyContent: 'center',
+    position: 'relative',
+    justifyContent: 'flex-start',
   },
   imageContainer: {
     alignItems: centerContainer.alignCenter,
   },
+  contantContainer: {
+    position: 'relative',
+  },
+  contantContainerInner: {
+    position: 'absolute',
+    top: -120,
+    left: 50,
+  },
   headingSize: {
-    fontSize: fontSize.headingFont,
+    fontSize: 32,
     fontWeight: '800',
     color: '#222222',
     letterSpacing: 1,
@@ -160,7 +177,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   inputText: {
-    height: inputBox.height,
+    height: 52,
     padding: inputBox.padding,
     borderWidth: inputBox.borderWidth,
     marginTop: 10,
@@ -171,11 +188,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   inputTextCode: {
-    height: inputBox.height,
+    height: 52,
     padding: inputBox.padding,
     borderWidth: inputBox.borderWidth,
     marginTop: 10,
-    width: 50,
+    width: 52,
     borderColor: '#0A8AFF',
     borderRadius: 10,
     color: '#333333',
@@ -193,7 +210,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   lableFont: {
-    fontSize: 15,
+    fontSize: 19,
     color: '#222222',
   },
   loginButtonBox: {alignItems: 'center'},
@@ -202,15 +219,16 @@ const styles = StyleSheet.create({
     justifyContent: centerContainer.justifyCenter,
     backgroundColor: '#0A8AFF',
     padding: 10,
-    width: 180,
+
+    width: 190,
     marginTop: 30,
     borderRadius: 50,
     height: 46,
   },
 
   loginTxt: {
-    fontSize: 18,
-    fontWeight: '400',
+    fontSize: 19,
+    fontWeight: '600',
     color: '#fff',
   },
 
@@ -220,7 +238,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   newLoginText: {
-    borderBottomColor: '#222222',
+    color: '#727272',
+    borderBottomColor: '#727272',
     borderBottomWidth: 0.6,
   },
 });

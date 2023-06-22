@@ -290,17 +290,6 @@ const BottomTabs = ({navigation}) => {
   );
 };
 
-function Splashscreen({navigation}) {
-  setTimeout(() => {
-    navigation.replace('Onboard');
-  }, 4100);
-  return (
-    <ImageBackground
-      source={require('../assets/images/splash-onboard.gif')}
-      style={{flex: 1}}
-    />
-  );
-}
 const AuthStack = ({navigation}) => {
   return (
     <Stack.Navigator
@@ -313,10 +302,10 @@ const AuthStack = ({navigation}) => {
           fontWeight: '900',
         },
       }}
-      initialRouteName={Splashscreen}>
+      initialRouteName={SplashScreen}>
       <Stack.Screen
         name="Splashscreen"
-        component={Splashscreen}
+        component={SplashScreen}
         options={{
           headerShown: false, // change this to `false`
         }}
@@ -329,6 +318,16 @@ const AuthStack = ({navigation}) => {
       <Stack.Screen
         name="Onboard"
         component={Onboard}
+        options={{headerShown: false, title: ''}}
+      />
+      <Stack.Screen
+        name="Signup"
+        component={SignUp}
+        options={{headerShown: false, title: ''}}
+      />
+      <Stack.Screen
+        name="Otp"
+        component={EnterOTP}
         options={{headerShown: false, title: ''}}
       />
 
