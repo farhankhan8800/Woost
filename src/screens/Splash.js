@@ -4,7 +4,7 @@ import {ImageBackground} from 'react-native';
 function SplashScreen({navigation}) {
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace('Signup');
+      navigation.replace('UserProfile');
     }, 2500);
   }, []);
 

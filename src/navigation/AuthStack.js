@@ -26,13 +26,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useIsFocused} from '@react-navigation/native';
 // import RNRestart from 'react-native-restart';
 // WithdrawMoney
-import {
-  View,
-  Image,
-  StyleSheet,
-  ImageBackground,
-  RefreshControl,
-} from 'react-native';
+import {View, Image, StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 // import FPL from '../screens/Fpl';
 //WithDrawRefferal
@@ -46,6 +40,8 @@ import OTP from '../screens/Otp';
 import SignUp from '../screens/Signup';
 import SplashScreen from '../screens/Splash';
 import EnterOTP from '../screens/Otp';
+import SocialProfile from '../screens/SocialProfile';
+import UserProfile from '../screens/UserProfile';
 
 //WithDrawRefferal
 
@@ -328,6 +324,16 @@ const AuthStack = ({navigation}) => {
       <Stack.Screen
         name="Otp"
         component={EnterOTP}
+        options={{headerShown: false, title: ''}}
+      />
+      <Stack.Screen
+        name="Socialprofile"
+        component={SocialProfile}
+        options={{headerShown: false, title: ''}}
+      />
+      <Stack.Screen
+        name="UserProfile"
+        component={UserProfile}
         options={{headerShown: false, title: ''}}
       />
 

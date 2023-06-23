@@ -116,7 +116,7 @@ const SignUp = ({navigation}) => {
                   </View>
                   <View style={styles.loginButtonBox}>
                     <TouchableOpacity
-                      onPress={() => navigation.navigate('Otp')}>
+                      onPress={() => navigation.navigate('Socialprofile')}>
                       {/* handleSubmit */}
                       <View style={styles.loginButton}>
                         <Text style={styles.loginTxt}>Request OTP</Text>

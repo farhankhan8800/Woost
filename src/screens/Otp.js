@@ -1,7 +1,10 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Image, TextInput} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {View, Text, StyleSheet, Image, Keyboard} from 'react-native';
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
 import Config from 'react-native-config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -9,7 +12,6 @@ import {
   centerContainer,
   fontSize,
   inputBox,
-  fontColor,
   commonMargin,
 } from '../assets/styles/common';
 import OTPin from '../components/OTPin';
@@ -59,7 +61,9 @@ const EnterOTP = ({navigation}) => {
     }
   };
   return (
-    <KeybaordAvoidingWrapper>
+    <KeybaordAvoidingWrapper
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{flex: 1}}>
       <View style={styles.container}>
         <View style={styles.imageContainer}>
           <Image source={require('../assets/images/otp-screen.png')} />
@@ -111,7 +115,7 @@ const styles = StyleSheet.create({
   containerContantInner: {
     position: 'absolute',
     top: -120,
-    left: 46,
+    left: 35,
   },
   headingSize: {
     fontSize: 32,
