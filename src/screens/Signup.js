@@ -2,33 +2,40 @@ import axios from 'axios';
 import Config from 'react-native-config';
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Platform, View, Text, StyleSheet, Image, TextInput} from 'react-native';
+import {Platform, View, Text, StyleSheet, Image, TextInput, Alert} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-
 import KeybaordAvoidingWrapper from '../components/keyboardAvoidingWrapper';
-
 import {centerContainer, fontSize, inputBox} from '../assets/styles/common';
-
-// import { useDispatch } from 'react-redux';
-// import { SIGNEDIN } from '../redux/actionTypes';
+import messaging from '@react-native-firebase/messaging'
+import { useDispatch } from 'react-redux';
+import { SIGNEDIN } from '../redux/actionTypes';
 const ENDPOINT = '/user/login';
-
+import request from '../utils/request';
+import ErroLabel from '../components/ErrorCom';
 const SignUp = ({navigation}) => {
   const deviceType = Platform.OS == 'ios' ? 4 : 3;
   const [error, setError] = useState(false);
 
   const [app_device_id, setAppDeviceId] = useState('');
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  const getDeviceToken = async () => {
-    let token = await messaging().getToken();
-    setAppDeviceId(token);
-    console.log('deviceToken', token);
-  };
+  // const getDeviceToken = async () => {
+  //   let token = await messaging().getToken();
+  //   setAppDeviceId(token);
+  //   console.log('token agaya');
+  //   console.log('deviceToken', token);
+  // };
   // Somewhere in your code
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // getDeviceToken();
+    console.log('COMPLETE END POINT',Config.API_URL + ENDPOINT);
+    console.log('API AUTH ',Config.API_AUTH);
+    console.log('APP DEVICE ID ',app_device_id);
+    console.log('DEVICE TYPE ',deviceType);
+    
+  }, []);
   return (
     <KeybaordAvoidingWrapper>
       <Formik
@@ -37,28 +44,26 @@ const SignUp = ({navigation}) => {
           countryCode: '+91',
         }}
         onSubmit={async values => {
+          console.log('values',values)
           try {
             const {data} = await request.post(
               navigation,
               Config.API_URL + ENDPOINT,
               {
                 apiAuth: Config.API_AUTH,
-                device_type: deviceType,
-                app_device_id: '',
-                password: values.password,
+                user_type: deviceType,
+                android_id_value: 'xyz',
                 phone: values.phone,
-                app_device_id: app_device_id,
               },
             );
-            if (data.status == '1' && data.error == '0') {
-              // dispatch({
-              //     type: SIGNEDIN,
-              //     userToken: data.token,
-              //     userInfo: data.data,
-              // });
-              navigation.navigate('Home');
+            if (data.code == '1' && data.error == '0') {
+              console.log(data);
+              await AsyncStorage.setItem('registerToken', data.token);
+              await AsyncStorage.setItem('phone', values.phone);
+              navigation.navigate('Otp');
             } else {
-              setError(data.message);
+              console.log(data)
+              setError(data.msg);
             }
           } catch (e) {
             setError(e.message);
@@ -114,10 +119,14 @@ const SignUp = ({navigation}) => {
                       )}
                     </View>
                   </View>
+                  {
+                        error && <ErroLabel message={error} />
+                  }
                   <View style={styles.loginButtonBox}>
                     <TouchableOpacity
-                      onPress={() => navigation.navigate('Socialprofile')}>
-                      {/* handleSubmit */}
+                      // onPress={() => navigation.navigate('Otp')}
+                      
+                      onPress={handleSubmit}>
                       <View style={styles.loginButton}>
                         <Text style={styles.loginTxt}>Request OTP</Text>
                       </View>

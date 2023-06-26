@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Image, Keyboard} from 'react-native';
+import {View,Platform, Text, StyleSheet, Image, Keyboard} from 'react-native';
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -16,14 +16,22 @@ import {
 } from '../assets/styles/common';
 import OTPin from '../components/OTPin';
 import KeybaordAvoidingWrapper from '../components/keyboardAvoidingWrapper';
-const ENDPOINT = '/user/verifyuser';
+import ErroLabel from '../components/ErrorCom';
+const ENDPOINT = '/user/userverification';
+import request from '../utils/request';
+import { useDispatch } from 'react-redux';
+import { SIGNEDIN } from '../redux/actionTypes';
+import SucessLbl from '../components/SuccessCom';
 const BASE_URL = Config.API_URL;
 const API_AUTH = Config.API_AUTH;
 
 const EnterOTP = ({navigation}) => {
+  const deviceType = Platform.OS=='ios' ? 4 : 3 ;
   const [Error, setError] = useState(null);
   const [message, setMessage] = useState(null);
   const [mobile, setMobile] = useState(null);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const get = async () => {
       const numb = await AsyncStorage.getItem('phone');
@@ -38,8 +46,8 @@ const EnterOTP = ({navigation}) => {
         BASE_URL + ENDPOINT,
         {
           apiAuth: API_AUTH,
-          phoneotp: otp,
-          device_type: '4',
+          verification_code: otp,
+          device_type: deviceType,
         },
         {
           headers: {
@@ -47,12 +55,27 @@ const EnterOTP = ({navigation}) => {
           },
         },
       );
-      if (data.status === '1') {
-        setMessage(data.message);
+      if (data.code==1 && data.error==0) 
+      {
+        dispatch({
+          type: SIGNEDIN,
+          userToken: data.token,
+          userInfo: data.response.userdata,
+          });
+        setMessage(data.msg);
         setTimeout(() => {
-          navigation.navigate('Profile');
+          if (data && data.response.userdata.profile_completion_level=='0') 
+         {
+          navigation.navigate('Socialprofile');
+         }
+         else
+         {
+          navigation.navigate('Home');
+         }
         }, 2500);
-      } else {
+      } 
+      else 
+      {
         setMessage('Wrong OTP! Please Re Check and enter');
       }
     } catch (e) {
@@ -78,13 +101,17 @@ const EnterOTP = ({navigation}) => {
                 We've Sent You The Verification Code At
               </Text>
 
-              <Text style={styles.registeredNumber}>+ 91 88600 *****</Text>
+              <Text style={styles.registeredNumber}>+ 91 {mobile}</Text>
               {/* <Text style={styles.registeredNumber}>+ 91 {mobile}</Text> */}
             </View>
             <View>
-              <Text style={styles.errorInput}>
-                Invalid OTP Please Try Again
-              </Text>
+            {
+            Error && <ErroLabel message={Error}/>
+            }
+
+            {
+            message && <SucessLbl message={message}/>
+            }
             </View>
             <View>
               <OTPin
@@ -115,7 +142,7 @@ const styles = StyleSheet.create({
   containerContantInner: {
     position: 'absolute',
     top: -120,
-    left: 35,
+    left: 22,
   },
   headingSize: {
     fontSize: 32,

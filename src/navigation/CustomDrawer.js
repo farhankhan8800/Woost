@@ -1,19 +1,35 @@
 import React, { useEffect,useState} from 'react';
 import { Platform,View, Text, TouchableOpacity, StyleSheet, Image,Linking} from 'react-native';
 import { Grid,ShoppingBag, Percent, PhoneCall, HelpCircle, LogOut, Tag, Key} from "react-native-feather";
-// import { useDispatch } from 'react-redux';
-// import { LOGGEDOUT } from '../redux/actionTypes';
-// import { useSelector } from 'react-redux';
-// import { Freshchat,FreshchatConfig} from 'react-native-freshchat-sdk';
+import { useDispatch } from 'react-redux';
+import { LOGGEDOUT } from '../redux/actionTypes';
+import { useSelector } from 'react-redux';
 import { black } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 const CustomDrawer = ({navigation}) => {
-    useEffect(()=>{
+    const user = useSelector((state) => {
+        return state.user;
+      });
 
-        }, [])
+    const dispatch = useDispatch();
+    const logOut = async() =>{
+       
+        try {
+            dispatch({
+                type: LOGGEDOUT,
+                userToken: '',
+                userInfo:'',
+            });
+            navigation.navigate('Signup');
+            
+           }
+            catch (exception) {
+                console.log(exception);
+            }
+    }
     return (
 
         <View style={{}}>
-            <View style={{backgroundColor: '#f27935', height: 120,}}>
+            <View style={{backgroundColor: '#0b8aff', height: 120,}}>
             </View>
             <View style={styles.humburgerContainer}>
                 <View style={styles.editProfile}>
@@ -45,11 +61,11 @@ const CustomDrawer = ({navigation}) => {
                 <ShoppingBag style={styles.iconSize} width={18}/>
                 </View>
                 <View style={styles.menuName}>
-                    <Text style={styles.menuTxt}>Stores</Text>
+                    <Text style={styles.menuTxt}>Earning Dashboard</Text>
                 </View>
                </View>
                </TouchableOpacity>
-               <TouchableOpacity onPress={()=> navigation.navigate('Categories')}>
+               {/* <TouchableOpacity onPress={()=> navigation.navigate('Categories')}>
                <View style={styles.menuListCon}>
                 <View style={styles.menuIcon}>
                 <Grid style={styles.iconSize} width={18}/>
@@ -91,7 +107,7 @@ const CustomDrawer = ({navigation}) => {
                     <Text style={styles.menuTxt}>About Us</Text>
                 </View>
                </View>
-               </TouchableOpacity>
+               </TouchableOpacity> */}
 {/* 
                <TouchableOpacity onPress={()=> navigation.navigate('FPL')}>
                <View style={styles.menuListCon}>
@@ -138,7 +154,18 @@ const CustomDrawer = ({navigation}) => {
                 </View>
                </View>
                </TouchableOpacity> */}
-               
+               {
+                user.userInfo ?<View style={styles.menuListCon}>
+                <View style={styles.menuIcon}>
+                <LogOut style={styles.iconSize} width={18}/>
+                </View>
+               <TouchableOpacity onPress={logOut}>
+               <View style={styles.menuName}>
+                    <Text style={styles.menuTxt}>Logout</Text>
+                </View>
+               </TouchableOpacity>
+               </View> : null
+               }
                <View style={styles.appVersion}>
                 <Text style={styles.apptxt}>App v1.0.1</Text>
                </View>
@@ -187,7 +214,7 @@ const styles = StyleSheet.create({
         right:35,
         top: 35,
         zIndex: 999,
-        backgroundColor: '#f27935',
+        backgroundColor: '#0b8aff',
         borderRadius: 45,
         padding: 8,
         width:60,

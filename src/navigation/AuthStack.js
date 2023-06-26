@@ -243,45 +243,7 @@ const BottomTabs = ({navigation}) => {
         }}
       />
 
-      <Tab.Screen
-        name="Login"
-        component={Profile}
-        options={{
-          BottomTabs: false,
-          tabBarStyle: {display: 'none'},
-          tabBarIcon: ({focused}) => (
-            <View
-              style={[
-                styles.tabLink,
-                focused ? styles.active : styles.tabLink,
-              ]}>
-              <User
-                style={{
-                  width: 26,
-                  height: 26,
-                  color: 'black',
-                  resizeMode: 'contain',
-                  tintColor: focused ? '#333' : 'black',
-                }}
-              />
-            </View>
-          ),
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}>
-              <View style={styles.backArrow}>
-                <Image
-                  source={require('../assets/images/backArrow.png')}
-                  style={styles.backIcon}
-                />
-              </View>
-            </TouchableOpacity>
-          ),
-        }}
-      />
+     
     </Tab.Navigator>
   );
 };
@@ -326,11 +288,7 @@ const AuthStack = ({navigation}) => {
         component={EnterOTP}
         options={{headerShown: false, title: ''}}
       />
-      <Stack.Screen
-        name="Socialprofile"
-        component={SocialProfile}
-        options={{headerShown: false, title: ''}}
-      />
+      
       <Stack.Screen
         name="UserProfile"
         component={UserProfile}
@@ -360,6 +318,11 @@ const AuthStack = ({navigation}) => {
       />
 
       <Stack.Screen name="OTP" component={OTP} options={{headerShown: false}} />
+      <Stack.Screen
+        name="Socialprofile"
+        component={SocialProfile}
+        options={{headerShown: false, title: ''}}
+      />
     </Stack.Navigator>
   );
 };

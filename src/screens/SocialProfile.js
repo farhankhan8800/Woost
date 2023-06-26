@@ -19,15 +19,10 @@ const ENDPOINT = '/user/login';
 const SocialProfile = ({navigation}) => {
   const deviceType = Platform.OS == 'ios' ? 4 : 3;
   const [error, setError] = useState(false);
-
-  const [app_device_id, setAppDeviceId] = useState('');
+  const [success, setSuccess] = useState(false);
   // const dispatch = useDispatch();
 
-  const getDeviceToken = async () => {
-    let token = await messaging().getToken();
-    setAppDeviceId(token);
-    console.log('deviceToken', token);
-  };
+  
   // Somewhere in your code
   useEffect(() => {}, []);
   return (
@@ -136,8 +131,7 @@ const SocialProfile = ({navigation}) => {
 
                   <View style={styles.loginButtonBox}>
                     <TouchableOpacity
-                      onPress={() => navigation.navigate('Socialprofile')}>
-                      {/* handleSubmit */}
+                      onPress={handleSubmit}>
                       <View style={styles.loginButton}>
                         <Text style={styles.loginTxt}>Submit</Text>
                       </View>
