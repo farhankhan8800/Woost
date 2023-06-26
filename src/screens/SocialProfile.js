@@ -2,29 +2,38 @@ import axios from 'axios';
 import Config from 'react-native-config';
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Platform, View, Text, StyleSheet, Image, TextInput} from 'react-native';
+import {Platform, View, Text, StyleSheet, Image, TextInput, Alert} from 'react-native';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-
+import request from '../utils/request';
 import KeybaordAvoidingWrapper from '../components/keyboardAvoidingWrapper';
-
 import {centerContainer, inputBox} from '../assets/styles/common';
 import {Instagram, Linkedin, Youtube} from 'react-native-feather';
-
-// import { useDispatch } from 'react-redux';
-// import { SIGNEDIN } from '../redux/actionTypes';
-const ENDPOINT = '/user/login';
+import ErroLabel from '../components/ErrorCom';
+import SucessLbl from '../components/SuccessCom';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { SIGNEDIN } from '../redux/actionTypes';
+const ENDPOINT = '/user/update-social-profile';
 
 const SocialProfile = ({navigation}) => {
+  const user = useSelector((state) => {
+    return state.user;
+  });
   const deviceType = Platform.OS == 'ios' ? 4 : 3;
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   
   // Somewhere in your code
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if(user && user.userInfo && user.userInfo.profile_completion_level=='1')
+    {
+      navigation.navigate('Home');
+    } 
+  }, []);
   return (
     <KeybaordAvoidingWrapper style={{flex: 1}}>
       <ScrollView>
@@ -35,6 +44,8 @@ const SocialProfile = ({navigation}) => {
             youtube: '',
           }}
           onSubmit={async values => {
+            console.log("values are:",values);
+            const token = await AsyncStorage.getItem('registerToken');
             try {
               const {data} = await request.post(
                 navigation,
@@ -42,20 +53,31 @@ const SocialProfile = ({navigation}) => {
                 {
                   apiAuth: Config.API_AUTH,
                   device_type: deviceType,
-                  app_device_id: '',
-                  password: values.password,
-                  phone: values.phone,
-                  app_device_id: app_device_id,
+                  socialupdate:"newuser",
+                  youtube_channel:values.youtube,
+                  insta_link:values.instagram,
+                  app_device_id: "xyz",
+                },
+                {
+                  headers: {
+                    Authorization: token,
+                  },
                 },
               );
-              if (data.status == '1' && data.error == '0') {
-                // dispatch({
-                //     type: SIGNEDIN,
-                //     userToken: data.token,
-                //     userInfo: data.data,
-                // });
-                navigation.navigate('Home');
+              if (data.code==1 && data.error==0) 
+              {
+                dispatch({
+                    type: SIGNEDIN,
+                    userToken: data.token,
+                    userInfo: data.response.userdata,
+                });
+                
+                setSuccess(data.msg);
+                setTimeout(() => {
+                  navigation.navigate('Home');
+                 }, 2500);
               } else {
+                // Alert.alert('Not okay')
                 setError(data.message);
               }
             } catch (e) {
@@ -63,7 +85,9 @@ const SocialProfile = ({navigation}) => {
             }
           }}
           validationSchema={yup.object().shape({
-            phone: yup.string().required('Please enter phone'),
+            youtube: yup.string().required('Please enter Youtube channel link'),
+            instagram: yup.string().required('Please enter Instagram channel link'),
+
           })}>
           {({values, handleChange, errors, touched, handleSubmit}) => (
             <View style={styles.container}>
@@ -91,8 +115,9 @@ const SocialProfile = ({navigation}) => {
                       value={values.linkdin}
                       placeholderTextColor="#666"
                       onChangeText={handleChange('linkdin')}
-                      placeholder="Linkdin Profile"
+                      placeholder="Linkedin Profile (Optional)"
                     />
+                    
                   </View>
                   <View style={styles.inputBoxContainer}>
                     <View style={styles.iconStyle}>
@@ -107,6 +132,9 @@ const SocialProfile = ({navigation}) => {
                       onChangeText={handleChange('instagram')}
                       placeholder="Instagram Profile"
                     />
+                    {touched.instagram && errors.instagram &&
+                      <Text style={styles.error}>{errors.instagram}</Text>
+                    }
                   </View>
                   <View style={styles.inputBoxContainer}>
                     <View style={styles.iconStyle}>
@@ -121,13 +149,17 @@ const SocialProfile = ({navigation}) => {
                       onChangeText={handleChange('youtube')}
                       placeholder="You Tube Profile"
                     />
+                    {touched.youtube && errors.youtube &&
+                      <Text style={styles.error}>{errors.youtube}</Text>
+                    }
                   </View>
 
-                  {/* <View>
-                        {touched.phone && errors.phone && (
-                          <Text style={styles.error}>{errors.phone}</Text>
-                        )}
-                      </View> */}
+                  {
+                        error && <ErroLabel message={error} />
+                  }
+                  {
+                        success && <SucessLbl message={success} />
+                  }
 
                   <View style={styles.loginButtonBox}>
                     <TouchableOpacity

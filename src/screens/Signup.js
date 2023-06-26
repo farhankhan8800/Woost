@@ -17,17 +17,7 @@ import ErroLabel from '../components/ErrorCom';
 const SignUp = ({navigation}) => {
   const deviceType = Platform.OS == 'ios' ? 4 : 3;
   const [error, setError] = useState(false);
-
   const [app_device_id, setAppDeviceId] = useState('');
-  const dispatch = useDispatch();
-
-  // const getDeviceToken = async () => {
-  //   let token = await messaging().getToken();
-  //   setAppDeviceId(token);
-  //   console.log('token agaya');
-  //   console.log('deviceToken', token);
-  // };
-  // Somewhere in your code
   useEffect(() => {
     // getDeviceToken();
     console.log('COMPLETE END POINT',Config.API_URL + ENDPOINT);
