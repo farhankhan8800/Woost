@@ -42,8 +42,17 @@ import SplashScreen from '../screens/Splash';
 import EnterOTP from '../screens/Otp';
 import SocialProfile from '../screens/SocialProfile';
 import UserProfile from '../screens/UserProfile';
+import { Text } from 'react-native-svg';
 
-//WithDrawRefferal
+//Icons
+
+import Hometab from '../assets/images/bottom-tabs/home.png';
+import Collabs from '../assets/images/bottom-tabs/collabs.png';
+import Earning from '../assets/images/bottom-tabs/earning.png';
+import Menu from '../assets/images/bottom-tabs/menu.png';
+
+
+
 
 const Tab = createBottomTabNavigator();
 
@@ -69,6 +78,8 @@ const BottomTabs = ({navigation}) => {
     },
   };
   const [refresh, setReferesh] = useState(false);
+
+  
   const onRefresh = () => {
     console.log('Tets');
     setReferesh(true);
@@ -82,13 +93,32 @@ const BottomTabs = ({navigation}) => {
     <Tab.Navigator
       navigation={navigation}
       screenOptions={{
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
         headerStyle: {
           backgroundColor: '#f27935',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
-          fontWeight: '900',
+          fontWeight: '900'
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          paddingTop:8,
+          paddingBottom:2,
+          fontWeight: '800',
+          },
+        
+        tabBarStyle: {
+          height: 72,
+          width: 320,
+          marginLeft: 33,
+          position:'absolute',
+          // alignItems:'center',
+          // paddingBottom:12,
+          bottom: 16,
+          
+          marginHorizontal:25,
+          borderRadius: 48
         },
       }}>
       <Tab.Screen
@@ -98,30 +128,25 @@ const BottomTabs = ({navigation}) => {
           unmountOnBlur: true,
           headerShown: false,
           tabBarScrollEnabled: true,
+          tabBarLabel: 'Home',
           tabBarIcon: ({focused}) => (
             <View
               style={[
                 styles.tabLink,
                 focused ? styles.active : styles.tabLink,
               ]}>
-              <HomeIcon
+              <Image source={Hometab}
                 style={{
-                  width: 26,
-                  height: 26,
-                  color: 'black',
+                  width: 24,
+                  height: 24,
                   resizeMode: 'contain',
-                  tintColor: focused ? '#333' : 'black',
+                  tintColor: focused ? '#fff' : '#000',
                 }}
               />
             </View>
           ),
-        }}
-        // listeners={{
-        //     tabPress: e => {
-        //         startReload()
-        //     },
-        // }}
-      />
+          
+        }} />
       <Tab.Screen
         name="Profile"
         component={Profile}
@@ -130,19 +155,19 @@ const BottomTabs = ({navigation}) => {
           unmountOnBlur: true,
           title: '',
           tabBarScrollEnabled: true,
+          tabBarLabel: 'My Collabs',
           tabBarIcon: ({focused}) => (
             <View
               style={[
                 styles.tabLink,
                 focused ? styles.active : styles.tabLink,
               ]}>
-              <ShoppingBag
+              <Image source={Collabs}
                 style={{
-                  width: 26,
-                  height: 26,
+                  width: 24,
+                  height: 24,
                   resizeMode: 'contain',
-                  color: 'black',
-                  tintColor: focused ? '#333' : 'black',
+                  tintColor: focused ? '#fff' : '#000',
                 }}
               />
             </View>
@@ -169,19 +194,19 @@ const BottomTabs = ({navigation}) => {
           BottomTabs: false,
           title: 'Login',
           // tabBarStyle: {display: 'none'},
+          tabBarLabel: 'Wallet',
           tabBarIcon: ({focused}) => (
             <View
               style={[
                 styles.tabLink,
                 focused ? styles.active : styles.tabLink,
               ]}>
-              <Users
+              <Image source={Earning}
                 style={{
-                  width: 40,
-                  height: 40,
+                  width: 24,
+                  height: 24,
                   resizeMode: 'contain',
-                  color: 'black',
-                  tintColor: focused ? '#333' : 'black',
+                  tintColor: focused ? '#fff' : '#000',
                 }}
               />
             </View>
@@ -209,37 +234,24 @@ const BottomTabs = ({navigation}) => {
         options={{
           BottomTabs: false,
           tabBarStyle: {display: 'none'},
+          tabBarLabel: 'Menu',
           tabBarIcon: ({focused}) => (
             <View
               style={[
                 styles.tabLink,
                 focused ? styles.active : styles.tabLink,
               ]}>
-              <User
+              <Image source={Menu}
                 style={{
-                  width: 26,
-                  height: 26,
-                  color: 'black',
+                  width: 24,
+                  height: 24,
                   resizeMode: 'contain',
-                  tintColor: focused ? '#333' : 'black',
+                  tintColor: focused ? '#fff' : '#000',
                 }}
               />
             </View>
           ),
-          // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}>
-              <View style={styles.backArrow}>
-                <Image
-                  source={require('../assets/images/backArrow.png')}
-                  style={styles.backIcon}
-                />
-              </View>
-            </TouchableOpacity>
-          ),
+          
         }}
       />
 
@@ -253,7 +265,7 @@ const AuthStack = ({navigation}) => {
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#f27935',
+          backgroundColor: '#f27935', 
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -328,7 +340,7 @@ const AuthStack = ({navigation}) => {
 };
 const styles = StyleSheet.create({
   active: {
-    backgroundColor: '#FFE6D8',
+    backgroundColor: '#0070D7',
   },
   tabLink: {
     height: 45,
