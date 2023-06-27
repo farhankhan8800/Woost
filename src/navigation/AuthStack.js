@@ -42,17 +42,19 @@ import SplashScreen from '../screens/Splash';
 import EnterOTP from '../screens/Otp';
 import SocialProfile from '../screens/SocialProfile';
 import UserProfile from '../screens/UserProfile';
-import { Text } from 'react-native-svg';
+import {Text} from 'react-native-svg';
 
 //Icons
 
 import Hometab from '../assets/images/bottom-tabs/home.png';
-import Collabs from '../assets/images/bottom-tabs/collabs.png';
+import Collab from '../assets/images/bottom-tabs/collabs.png';
 import Earning from '../assets/images/bottom-tabs/earning.png';
 import Menu from '../assets/images/bottom-tabs/menu.png';
-
-
-
+import MyEarning from '../screens/MyEarning';
+import WithdrawAmount from '../screens/WithdrawAmount';
+import BankList from '../screens/account/BankList';
+import AddBank from '../screens/account/AddBank';
+import SocialLinkVarifyBottomSheet from '../screens/SocialLinkVerifyBottomSheet';
 
 const Tab = createBottomTabNavigator();
 
@@ -79,7 +81,6 @@ const BottomTabs = ({navigation}) => {
   };
   const [refresh, setReferesh] = useState(false);
 
-  
   const onRefresh = () => {
     console.log('Tets');
     setReferesh(true);
@@ -99,26 +100,26 @@ const BottomTabs = ({navigation}) => {
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
-          fontWeight: '900'
+          fontWeight: '900',
         },
         tabBarLabelStyle: {
           fontSize: 12,
-          paddingTop:8,
-          paddingBottom:2,
+          paddingTop: 8,
+          paddingBottom: 2,
           fontWeight: '800',
-          },
-        
+        },
+
         tabBarStyle: {
           height: 72,
           width: 320,
           marginLeft: 33,
-          position:'absolute',
+          position: 'absolute',
           // alignItems:'center',
           // paddingBottom:12,
           bottom: 16,
-          
-          marginHorizontal:25,
-          borderRadius: 48
+
+          marginHorizontal: 25,
+          borderRadius: 48,
         },
       }}>
       <Tab.Screen
@@ -135,7 +136,8 @@ const BottomTabs = ({navigation}) => {
                 styles.tabLink,
                 focused ? styles.active : styles.tabLink,
               ]}>
-              <Image source={Hometab}
+              <Image
+                source={Hometab}
                 style={{
                   width: 24,
                   height: 24,
@@ -145,8 +147,8 @@ const BottomTabs = ({navigation}) => {
               />
             </View>
           ),
-          
-        }} />
+        }}
+      />
       <Tab.Screen
         name="Profile"
         component={Profile}
@@ -162,7 +164,8 @@ const BottomTabs = ({navigation}) => {
                 styles.tabLink,
                 focused ? styles.active : styles.tabLink,
               ]}>
-              <Image source={Collabs}
+              <Image
+                source={Collab}
                 style={{
                   width: 24,
                   height: 24,
@@ -201,7 +204,8 @@ const BottomTabs = ({navigation}) => {
                 styles.tabLink,
                 focused ? styles.active : styles.tabLink,
               ]}>
-              <Image source={Earning}
+              <Image
+                source={Earning}
                 style={{
                   width: 24,
                   height: 24,
@@ -241,7 +245,8 @@ const BottomTabs = ({navigation}) => {
                 styles.tabLink,
                 focused ? styles.active : styles.tabLink,
               ]}>
-              <Image source={Menu}
+              <Image
+                source={Menu}
                 style={{
                   width: 24,
                   height: 24,
@@ -251,11 +256,8 @@ const BottomTabs = ({navigation}) => {
               />
             </View>
           ),
-          
         }}
       />
-
-     
     </Tab.Navigator>
   );
 };
@@ -265,7 +267,7 @@ const AuthStack = ({navigation}) => {
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#f27935', 
+          backgroundColor: '#f27935',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -285,6 +287,7 @@ const AuthStack = ({navigation}) => {
         component={BottomTabs}
         options={{headerShown: false, title: ''}}
       />
+
       <Stack.Screen
         name="Onboard"
         component={Onboard}
@@ -300,11 +303,79 @@ const AuthStack = ({navigation}) => {
         component={EnterOTP}
         options={{headerShown: false, title: ''}}
       />
-      
+      <Stack.Screen
+        name="BottomSheet"
+        component={SocialLinkVarifyBottomSheet}
+        options={{headerShown: false, title: ''}}
+      />
       <Stack.Screen
         name="UserProfile"
         component={UserProfile}
         options={{headerShown: false, title: ''}}
+      />
+      <Stack.Screen
+        name="Myearning"
+        component={MyEarning}
+        options={{headerShown: false, title: ''}}
+      />
+      <Stack.Screen
+        name="Withdraw"
+        component={WithdrawAmount}
+        options={{headerShown: false, title: ''}}
+      />
+      <Stack.Screen
+        name="Banklist"
+        component={BankList}
+        options={{
+          headerShown: true,
+          title: 'Bank ',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: {
+            color: '#222',
+          },
+          headerLeft: ({tintColor}) => (
+            <TouchableOpacity
+              style={{marginLeft: 10}}
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image
+                width={45}
+                height={45}
+                source={require('../assets/images/back-button.png')}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Addbank"
+        component={AddBank}
+        options={{
+          headerShown: true,
+          title: 'Bank Account ',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: {
+            color: '#222',
+          },
+          headerLeft: ({tintColor}) => (
+            <TouchableOpacity
+              style={{marginLeft: 10}}
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image
+                width={45}
+                height={45}
+                source={require('../assets/images/back-button.png')}
+              />
+            </TouchableOpacity>
+          ),
+        }}
       />
 
       <Stack.Screen

@@ -47,7 +47,7 @@ const Home = ({navigation}) => {
                 placeholder="What are You Looking For?"
               />
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Myearning')}>
               <Image
                 width={30}
                 height={30}

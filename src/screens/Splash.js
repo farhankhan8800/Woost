@@ -1,27 +1,22 @@
 import React, {useEffect} from 'react';
 import {ImageBackground} from 'react-native';
-import { useDispatch } from 'react-redux';
-import { LOGGEDOUT } from '../redux/actionTypes';
-import { useSelector } from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {LOGGEDOUT} from '../redux/actionTypes';
+import {useSelector} from 'react-redux';
 function SplashScreen({navigation}) {
-  const user = useSelector((state) => {
+  const user = useSelector(state => {
     return state.user;
   });
 
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
   useEffect(() => {
-    console.log()
+    console.log();
     setTimeout(() => {
-      if(user && user.userInfo.profile_completion_level=='0')
-      {
+      if (user && user.userInfo.profile_completion_level == '0') {
         navigation.navigate('Socialprofile');
-      }
-      else if(user && user.userInfo.profile_completion_level=='1')
-      {
-      navigation.replace('Home');
-      }
-      else
-      {
+      } else if (user && user.userInfo.profile_completion_level == '1') {
+        navigation.replace('Home');
+      } else {
         navigation.replace('Signup');
       }
     }, 2500);

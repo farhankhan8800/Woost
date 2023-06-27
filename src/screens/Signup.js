@@ -2,15 +2,23 @@ import axios from 'axios';
 import Config from 'react-native-config';
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Platform, View, Text, StyleSheet, Image, TextInput, Alert} from 'react-native';
+import {
+  Platform,
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TextInput,
+  Alert,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import KeybaordAvoidingWrapper from '../components/keyboardAvoidingWrapper';
 import {centerContainer, fontSize, inputBox} from '../assets/styles/common';
-import messaging from '@react-native-firebase/messaging'
-import { useDispatch } from 'react-redux';
-import { SIGNEDIN } from '../redux/actionTypes';
+import messaging from '@react-native-firebase/messaging';
+import {useDispatch} from 'react-redux';
+import {SIGNEDIN} from '../redux/actionTypes';
 const ENDPOINT = '/user/login';
 import request from '../utils/request';
 import ErroLabel from '../components/ErrorCom';
@@ -20,11 +28,10 @@ const SignUp = ({navigation}) => {
   const [app_device_id, setAppDeviceId] = useState('');
   useEffect(() => {
     // getDeviceToken();
-    console.log('COMPLETE END POINT',Config.API_URL + ENDPOINT);
-    console.log('API AUTH ',Config.API_AUTH);
-    console.log('APP DEVICE ID ',app_device_id);
-    console.log('DEVICE TYPE ',deviceType);
-    
+    console.log('COMPLETE END POINT', Config.API_URL + ENDPOINT);
+    console.log('API AUTH ', Config.API_AUTH);
+    console.log('APP DEVICE ID ', app_device_id);
+    console.log('DEVICE TYPE ', deviceType);
   }, []);
   return (
     <KeybaordAvoidingWrapper>
@@ -34,7 +41,7 @@ const SignUp = ({navigation}) => {
           countryCode: '+91',
         }}
         onSubmit={async values => {
-          console.log('values',values)
+          console.log('values', values);
           try {
             const {data} = await request.post(
               navigation,
@@ -52,7 +59,7 @@ const SignUp = ({navigation}) => {
               await AsyncStorage.setItem('phone', values.phone);
               navigation.navigate('Otp');
             } else {
-              console.log(data)
+              console.log(data);
               setError(data.msg);
             }
           } catch (e) {
@@ -109,13 +116,11 @@ const SignUp = ({navigation}) => {
                       )}
                     </View>
                   </View>
-                  {
-                        error && <ErroLabel message={error} />
-                  }
+                  {error && <ErroLabel message={error} />}
                   <View style={styles.loginButtonBox}>
                     <TouchableOpacity
                       // onPress={() => navigation.navigate('Otp')}
-                      
+
                       onPress={handleSubmit}>
                       <View style={styles.loginButton}>
                         <Text style={styles.loginTxt}>Request OTP</Text>
