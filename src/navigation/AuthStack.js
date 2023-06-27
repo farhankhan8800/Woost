@@ -215,30 +215,20 @@ const BottomTabs = ({navigation}) => {
               />
             </View>
           ),
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}>
-              <View style={styles.backArrow}>
-                <Image
-                  source={require('../assets/images/backArrow.png')}
-                  style={styles.backIcon}
-                />
-              </View>
-            </TouchableOpacity>
-          ),
         }}
       />
 
       <Tab.Screen
-        name="Login"
+        name="More"
         component={Profile}
+        listeners={({navigation}) => ({
+          tabPress: e => {
+            e.preventDefault();
+            navigation.openDrawer();
+          },
+        })}
         options={{
-          BottomTabs: false,
-          tabBarStyle: {display: 'none'},
-          tabBarLabel: 'Menu',
+          tabBarLabel: 'More',
           tabBarIcon: ({focused}) => (
             <View
               style={[

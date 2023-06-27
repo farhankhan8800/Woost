@@ -1,16 +1,104 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, Image, TextInput} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View,Platform, Text, StyleSheet, Image, TextInput} from 'react-native';
 // import BottomNavigator from '../navigation/BottomNavigator';
 import Header from '../components/Header';
+import axios from 'axios';
+import Config from 'react-native-config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {fontSize, inputBox} from '../assets/styles/common';
+import request from '../utils/request';
+import { useSelector } from 'react-redux';
+import { act } from 'react-test-renderer';
+const ENDPOINT = '/campaign/home';
+const ENDURL = '/campaign/mycolab';
 const Home = ({navigation}) => {
+  const deviceType = Platform.OS == 'ios' ? 4 : 3;
   const [searchData, setSerchData] = useState();
-
+  const [page, setpage] = useState(1);
+  const [campaigns, setCampaigns] = useState([]);
+  const [mycollabcampaigns, setMycollabCampaigns] = useState([]);
+  const [message, setMessage] = useState('');
+  const [newcollabs, setNewcollabs] = useState(true);
+  const [mycollabs, setMycollabs] = useState(false);
+  const userToken = useSelector(state => state.user.userToken);
   const handalInput = () => {
     setSerchData(searchData);
   };
+  const handleTab = (action) => {
+    if(action=='newcollab')
+    {
+      getCampaigns();
+      setNewcollabs(true)
+      setMycollabs(false)
+    }
+    else if(action=='mycollab')
+    {
+      setNewcollabs(false)
+      setMycollabs(true)
+      getcollabCampaigns()
+    }
+  }
+   
+  const getCampaigns = () => {
+    request.post(navigation,Config.API_URL + ENDPOINT, {
+      'apiAuth': Config.API_AUTH,
+      'device_type': deviceType,
+      'page':page,
+    }, {
+      headers: {
+        Authorization: userToken,
+    },
+    }).then(({ data }) => {
+      if (data.code==1 && data.error==0) 
+      {
+      
+      setCampaigns(data.response.campaigns);
+      }
+      else
+      {
+        setMessage('Ooops !! No Campaigns Data Available')
+      }
+      
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+
+  const getcollabCampaigns = () => {
+    request.post(navigation,Config.API_URL + ENDURL, {
+      'apiAuth': Config.API_AUTH,
+      'device_type': deviceType,
+      'page':page,
+    }, {
+      headers: {
+        Authorization: userToken,
+    },
+    }).then(({ data }) => {
+      console.log('mycollab',data)
+      if (data.code==1 && data.error==0) 
+      {
+      
+        setCampaigns(data.response.campaigns);
+      }
+      else
+      {
+        setMessage('Ooops !! No Campaigns Data Available')
+      }
+      
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+  useEffect(() => {
+    getCampaigns();
+    console.log('COMPLETE END POINT',Config.API_URL + ENDPOINT);
+    console.log('API AUTH ',Config.API_AUTH);
+    console.log('DEVICE TYPE ',deviceType);
+    console.log('ResponseDataa',campaigns)
+  }, []);
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -57,7 +145,7 @@ const Home = ({navigation}) => {
           </View>
           <View style={styles.tab_section}>
             <TouchableOpacity
-              style={[styles.tab_activeTab, styles.tab_menu_list]}>
+              style={[styles.tab_activeTab, styles.tab_menu_list]} onPress={()=> handleTab('newcollab')}>
               <Text
                 style={[
                   styles.tab_menu_listitem_text,
@@ -66,7 +154,7 @@ const Home = ({navigation}) => {
                 New Collabs
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.tab_menu_list]}>
+            <TouchableOpacity style={[styles.tab_menu_list]} onPress={()=> handleTab('mycollab')}>
               <Text style={styles.tab_menu_listitem_text}>My Collabs</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -78,13 +166,17 @@ const Home = ({navigation}) => {
               />
             </TouchableOpacity>
           </View>
-          <View>
+         
+          
+         {
+            newcollabs && campaigns.length ? campaigns.map((item, i) => {
+         return  <View>
             <View style={styles.collabs_card}>
               <View style={styles.collabs_card_image}>
-                <Text style={styles.collabs_float_text}>LifeStyle</Text>
+                {/* <Text style={styles.collabs_float_text}>LifeStyle</Text> */}
                 <Image
                   style={styles.collabs_card_img}
-                  source={require('../assets/images/brand-image.png')}
+                 source={{ uri: item.home_image}} 
                 />
               </View>
               <View
@@ -96,11 +188,11 @@ const Home = ({navigation}) => {
                 }}>
                 <View style={styles.collab_section_bottom}>
                   <View style={{flex: 2}}>
-                    <Text style={styles.collab_bottomname}>Collabs Name</Text>
-                    <Text>Company Name</Text>
+                    <Text style={styles.collab_bottomname}>{item.title}</Text>
+                    <Text>{item.store_name}</Text>
                   </View>
                   <View style={styles.collab_section_paid_box}>
-                    <Text style={styles.paid_text}>Paid</Text>
+                    <Text style={styles.paid_text}>{item.cam_type_name}</Text>
 
                     <View
                       style={{
@@ -128,7 +220,7 @@ const Home = ({navigation}) => {
                     justifyContent: 'space-between',
                     paddingBottom: 10,
                   }}>
-                  <Text style={styles.apply_text}>Apply By 31st August</Text>
+                  <Text style={styles.apply_text}>Apply By {item.submission_time}</Text>
                   <View
                     style={{
                       flexDirection: 'row',
@@ -140,12 +232,83 @@ const Home = ({navigation}) => {
                       height={30}
                       source={require('../assets/images/ellipse-home.png')}
                     />
-                    <Text style={styles.applicant_text}>47 Applicant</Text>
+                    <Text style={styles.applicant_text}>{item.applied_user_count} Applicant</Text>
                   </View>
                 </View>
               </View>
             </View>
-          </View>
+          </View> }) : null }
+        
+
+          {
+            mycollabs && campaigns.length ? campaigns.map((item, i) => {
+         return  <View>
+            <View style={styles.collabs_card}>
+              <View style={styles.collabs_card_image}>
+                {/* <Text style={styles.collabs_float_text}>LifeStyle</Text> */}
+                <Image
+                  style={styles.collabs_card_img}
+                 source={{ uri: item.home_image}} 
+                />
+              </View>
+              <View
+                style={{
+                  padding: 6,
+                  paddingLeft: 16,
+                  paddingRight: 16,
+                  width: '100%',
+                }}>
+                <View style={styles.collab_section_bottom}>
+                  <View style={{flex: 2}}>
+                    <Text style={styles.collab_bottomname}>{item.title}</Text>
+                    <Text>{item.store_name}</Text>
+                  </View>
+                  <View style={styles.collab_section_paid_box}>
+                    <Text style={styles.paid_text}>{item.cam_type_name}</Text>
+
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'flex-end',
+                      }}>
+                      <Image
+                        style={styles.share_icon}
+                        source={require('../assets/images/home-youtube.png')}
+                      />
+                      <Image
+                        style={styles.share_icon}
+                        source={require('../assets/images/home-instagram.png')}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    paddingBottom: 10,
+                  }}>
+                  <Text style={styles.apply_text}>Application Under Progress</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    
+                    
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View> }) : null }
+
+       
+          
+         
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -233,6 +396,7 @@ const styles = StyleSheet.create({
     borderColor: '#222',
     borderWidth: 0.5,
     // elevation: 1,
+    marginBottom:15,
     borderRadius: 5,
     overflow: 'hidden',
   },
