@@ -211,49 +211,42 @@ const BottomTabs = ({navigation}) => {
               />
             </View>
           ),
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}>
-              <View style={styles.backArrow}>
-                <Image
-                  source={require('../assets/images/backArrow.png')}
-                  style={styles.backIcon}
-                />
-              </View>
-            </TouchableOpacity>
-          ),
+        
         }}
       />
 
-      <Tab.Screen
-        name="Login"
-        component={Profile}
-        options={{
-          BottomTabs: false,
-          tabBarStyle: {display: 'none'},
-          tabBarLabel: 'Menu',
-          tabBarIcon: ({focused}) => (
-            <View
-              style={[
-                styles.tabLink,
-                focused ? styles.active : styles.tabLink,
-              ]}>
-              <Image source={Menu}
-                style={{
-                  width: 24,
-                  height: 24,
-                  resizeMode: 'contain',
-                  tintColor: focused ? '#fff' : '#000',
-                }}
-              />
-            </View>
-          ),
-          
-        }}
-      />
+<Tab.Screen
+  name="More"
+  component={Profile}
+  listeners={({ navigation }) => ({
+    tabPress: (e) => {
+      e.preventDefault();
+      navigation.openDrawer();
+    },
+  })}
+  options={{
+    tabBarLabel: 'More',
+    tabBarIcon: ({ focused }) => (
+      <View
+        style={[
+          styles.tabLink,
+          focused ? styles.active : styles.tabLink,
+        ]}
+      >
+        <Image
+          source={Menu}
+          style={{
+            width: 24,
+            height: 24,
+            resizeMode: 'contain',
+            tintColor: focused ? '#fff' : '#000',
+          }}
+        />
+      </View>
+    ),
+  }}
+/>
+
 
      
     </Tab.Navigator>
