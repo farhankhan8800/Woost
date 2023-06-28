@@ -44,13 +44,22 @@ const CustomDrawer = ({navigation}) => {
                    </View>
                 </View>
                 
-                
+                {
+                user.userInfo ?
+                <View style={styles.profileName}>
+                    <Text style={{ color:'black' }}>Hii,</Text>
+                    <Text style={styles.pName}>
+                    {user.userInfo.phone}
+                        </Text>
+                </View>
+                :
                 <View style={styles.profileName}>
                     <Text style={{ color:'black' }}>Hii,</Text>
                     <Text style={styles.pName}>
                        Guest
                         </Text>
                 </View>
+               }
               </View>
             </View>
             <View style={styles.humburgerMenu}>
