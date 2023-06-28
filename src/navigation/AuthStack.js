@@ -55,6 +55,7 @@ import WithdrawAmount from '../screens/WithdrawAmount';
 import BankList from '../screens/account/BankList';
 import AddBank from '../screens/account/AddBank';
 import SocialLinkVarifyBottomSheet from '../screens/SocialLinkVerifyBottomSheet';
+import CollabDetails from '../screens/collab/CollabDetails';
 
 const Tab = createBottomTabNavigator();
 
@@ -367,7 +368,46 @@ const AuthStack = ({navigation}) => {
           ),
         }}
       />
-
+      <Stack.Screen
+        name="Collabdetails"
+        component={CollabDetails}
+        options={{
+          headerShown: true,
+          title: 'Details',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: {
+            color: '#222',
+          },
+          headerLeft: ({tintColor}) => (
+            <TouchableOpacity
+              style={{marginLeft: 10}}
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image
+                width={45}
+                height={45}
+                source={require('../assets/images/back-button.png')}
+              />
+            </TouchableOpacity>
+          ),
+          headerRight: ({tintColor}) => (
+            <TouchableOpacity
+              style={{marginRight: 20}}
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image
+                width={40}
+                height={40}
+                source={require('../assets/images/ballnotify.png')}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
       <Stack.Screen
         name="Profile"
         component={Profile}
