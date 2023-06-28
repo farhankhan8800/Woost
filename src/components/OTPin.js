@@ -25,15 +25,19 @@ const OTPin = props => {
               refs.current[i] = ref;
             }}
             value={p[i]}
-            onChangeText={t => {
+            onChangeText={(t) => {
               if (t.length <= 1) {
                 let inp = p;
                 p[i] = t;
                 setp(inp);
               }
-              if (i + 1 < arr.length) {
+              if (t.length === 0) {
+                // Clear the OTP value if it becomes empty
+                setp(arr);
+              }
+              if (i + 1 < arr.length && t.length === 1) {
                 refs.current[i + 1].focus();
-              } else {
+              } else if (t.length === 1) {
                 props.onDone(p.join(''));
               }
             }}></TextInput>

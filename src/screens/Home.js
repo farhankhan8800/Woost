@@ -1,19 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import {View, Platform, Text, StyleSheet, Image, TextInput} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View,Alert, Platform, Text, StyleSheet, Image, TextInput } from 'react-native';
 // import BottomNavigator from '../navigation/BottomNavigator';
 import Header from '../components/Header';
 import axios from 'axios';
 import Config from 'react-native-config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
-import {fontSize, inputBox} from '../assets/styles/common';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { fontSize, inputBox } from '../assets/styles/common';
+import SearchInput, { createFilter } from 'react-native-search-filter';
 import request from '../utils/request';
-import {useSelector} from 'react-redux';
-import {act} from 'react-test-renderer';
+import { useSelector } from 'react-redux';
+import { act } from 'react-test-renderer';
 const ENDPOINT = '/campaign/home';
 const ENDURL = '/campaign/mycolab';
-const Home = ({navigation}) => {
+const Home = ({ navigation }) => {
   const deviceType = Platform.OS == 'ios' ? 4 : 3;
   const [searchData, setSerchData] = useState();
   const [page, setpage] = useState(1);
@@ -24,8 +25,26 @@ const Home = ({navigation}) => {
   const [newcollabs, setNewcollabs] = useState(true);
   const [mycollabs, setMycollabs] = useState(false);
   const userToken = useSelector(state => state.user.userToken);
-  const handalInput = () => {
-    setSerchData(searchData);
+  const handalInput = (newSearchData) => {
+
+    setSerchData(newSearchData);
+
+    if (newcollabs) {
+      // Filter the campaigns based on the search text
+      const filteredCampaigns = campaigns.filter(campaign => {
+        // Customize the condition based on your filtering requirements
+        return campaign.store_name.toLowerCase().includes(newSearchData.toLowerCase());
+      });
+
+      // Update the campaigns state based on the search text
+      if (newSearchData !== '') {
+        setCampaigns(filteredCampaigns);
+      } else {
+        // Revert back to the original campaigns data
+        setCampaigns(newcollabs);
+        // setCampaigns(mycollabs);ds
+      }
+    }
   };
   const handleTab = action => {
     if (action == 'newcollab') {
@@ -57,12 +76,13 @@ const Home = ({navigation}) => {
           },
         },
       )
-      .then(({data}) => {
+      .then(({ data }) => {
         console.log('newcollab', data);
         if (data.code == 1 && data.error == 0) {
           setCampaigns(data.response.campaigns);
+          setNewcollabs(data.response.campaigns);
         } else {
-          setMessage('Ooops !! No Campaigns Data Available');
+          setMessage('Ooops !! No Data Available');
         }
       })
       .catch(error => {
@@ -86,12 +106,12 @@ const Home = ({navigation}) => {
           },
         },
       )
-      .then(({data}) => {
+      .then(({ data }) => {
         console.log('mycollab', data);
         if (data.code == 1 && data.error == 0) {
           setMycollabCampaigns(data.response.campaigns);
         } else {
-          setMessage('Ooops !! No Campaigns Data Available');
+          setMessage('Ooops !! No Data Available');
         }
       })
       .catch(error => {
@@ -112,11 +132,11 @@ const Home = ({navigation}) => {
         <View style={styles.container}>
           {/* <Header navigation={navigation} /> */}
           <View style={[styles.top_header_box]}>
-            <Text style={[styles.top_header_text, {flex: 3}]}>
+            <Text style={[styles.top_header_text, { flex: 3 }]}>
               Perfect Campaigns are waiting for you
             </Text>
-            <View style={[styles.notify_icon, {flex: 1}]}>
-              <TouchableOpacity>
+            <View style={[styles.notify_icon, { flex: 1 }]}>
+              <TouchableOpacity >
                 <Image
                   width={45}
                   height={45}
@@ -184,7 +204,7 @@ const Home = ({navigation}) => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={{width: 100, flex: 1, alignItems: 'flex-end'}}>
+              style={{ width: 100, flex: 1, alignItems: 'flex-end' }}>
               <Image
                 width={20}
                 height={20}
@@ -201,10 +221,12 @@ const Home = ({navigation}) => {
                     <View style={styles.collabs_card}>
                       <View style={styles.collabs_card_image}>
                         {/* <Text style={styles.collabs_float_text}>LifeStyle</Text> */}
+                        <TouchableOpacity onPress={() => Alert.alert('okay')}>
                         <Image
                           style={styles.collabs_card_img}
-                          source={{uri: item.home_image}}
+                          source={{ uri: item.home_image }}
                         />
+                       </TouchableOpacity>
                       </View>
                       <View
                         style={{
@@ -214,16 +236,14 @@ const Home = ({navigation}) => {
                           width: '100%',
                         }}>
                         <View style={styles.collab_section_bottom}>
-                          <View style={{flex: 2}}>
+                          <View style={{ flex: 2 }}>
                             <Text style={styles.collab_bottomname}>
                               {item.title}
                             </Text>
                             <Text>{item.store_name}</Text>
                           </View>
                           <View style={styles.collab_section_paid_box}>
-                            <Text style={styles.paid_text}>
-                              {item.cam_type_name}
-                            </Text>
+                            
 
                             <View
                               style={{
@@ -236,11 +256,16 @@ const Home = ({navigation}) => {
                                 style={styles.share_icon}
                                 source={require('../assets/images/home-youtube.png')}
                               />
+                              
                               <Image
                                 style={styles.share_icon}
                                 source={require('../assets/images/home-instagram.png')}
                               />
                             </View>
+
+                            <Text style={styles.paid_text}>
+                              {item.cam_type_name}
+                            </Text>
                           </View>
                         </View>
                         <View
@@ -276,14 +301,8 @@ const Home = ({navigation}) => {
                 );
               })
             ) : (
-              // changeClass == 'newcollab' ? (
-              //   <View>
-              //     <Text style={styles.oppsNodata}>Oops No Data Found</Text>
-              //   </View>
-              // ) : (
-              //   ''
-              // )
-              <Text style={styles.oppsNodata}>Oops No Data Found1</Text>
+
+              <Text style={styles.oppsNodata}>Oops No Data Found</Text>
             )
           ) : null}
 
@@ -296,10 +315,12 @@ const Home = ({navigation}) => {
                       <View style={styles.collabs_card}>
                         <View style={styles.collabs_card_image}>
                           {/* <Text style={styles.collabs_float_text}>LifeStyle</Text> */}
-                          <Image
-                            style={styles.collabs_card_img}
-                            source={{uri: item.home_image}}
-                          />
+                          <TouchableOpacity onPress={() => Alert.alert('okay')}>
+                        <Image
+                          style={styles.collabs_card_img}
+                          source={{ uri: item.home_image }}
+                        />
+                        </TouchableOpacity>
                         </View>
                         <View
                           style={{
@@ -309,7 +330,7 @@ const Home = ({navigation}) => {
                             width: '100%',
                           }}>
                           <View style={styles.collab_section_bottom}>
-                            <View style={{flex: 2}}>
+                            <View style={{ flex: 2 }}>
                               <Text style={styles.collab_bottomname}>
                                 {item.title}
                               </Text>
@@ -361,7 +382,7 @@ const Home = ({navigation}) => {
                   );
                 })
               ) : (
-                <Text style={styles.oppsNodata}>Oops No Data Found2</Text>
+                <Text style={styles.oppsNodata}>Oops No Data Found</Text>
               )
             ) : null
             // changeClass == 'mycollabs' ? (
