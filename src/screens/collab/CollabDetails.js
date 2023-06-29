@@ -1,11 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, Image, TextInput} from 'react-native';
 // import BottomNavigator from '../navigation/BottomNavigator';
 import Header from '../../components/Header';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import CompaignExample from '../../components/CampaignExample';
 
 const CollabDetails = ({navigation}) => {
+  const [tabs, setTabs] = useState('Deals');
+
+  const changeTabFun = item => {
+    if (item == 'Deals') {
+      setTabs('Deals');
+    } else {
+      setTabs('Example');
+    }
+  };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <ScrollView>
@@ -25,188 +35,237 @@ const CollabDetails = ({navigation}) => {
           </View>
           <View style={styles.tab_list_con}>
             <TouchableOpacity
-              style={[styles.tab_button, styles.tab_button_active]}>
+              onPress={() => changeTabFun('Deals')}
+              style={[
+                styles.tab_button,
+                tabs == 'Deals' ? styles.tab_button_active : '',
+              ]}>
               <Text
-                style={[styles.tab_button_text, styles.tab_button_text_active]}>
+                style={[
+                  styles.tab_button_text,
+                  tabs == 'Deals' ? styles.tab_button_text_active : '',
+                ]}>
                 Deals
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.tab_button]}>
-              <Text style={[styles.tab_button_text]}>Example</Text>
+            <TouchableOpacity
+              onPress={() => changeTabFun('Example')}
+              style={[
+                styles.tab_button,
+                tabs == 'Example' ? styles.tab_button_active : '',
+              ]}>
+              <Text
+                style={[
+                  styles.tab_button_text,
+                  tabs == 'Example' ? styles.tab_button_text_active : '',
+                ]}>
+                Example
+              </Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.main_box}>
-            <View style={styles.main_box_card}>
-              <Text style={styles.main_box_card_title}>Brand Details</Text>
-              <View style={styles.line_style}></View>
-              <Text style={styles.company_name}>URBAN Companny</Text>
-            </View>
-            <View style={styles.main_box_card}>
-              <Text style={styles.main_box_card_title}>Task Details</Text>
-              <View style={styles.line_style}></View>
+          <View>
+            {tabs == 'Deals' ? (
               <View>
-                <Text style={styles.sub_title_card}>
-                  Campaing Type ::{' '}
-                  <Text style={styles.sub_title_card_name}> Female</Text>
-                </Text>
-                <Text style={styles.sub_title_card}>
-                  Product Name ::{' '}
-                  <Text style={styles.sub_title_card_name}> Whatever</Text>
-                </Text>
-                <Text style={styles.sub_title_card}>
-                  Product Link ::{' '}
-                  <Text style={styles.sub_title_card_name}> Some Link</Text>
-                </Text>
-              </View>
-            </View>
-            <View style={styles.main_box_card}>
-              <Text style={styles.main_box_card_title}>
-                Collab Requirements
-              </Text>
-              <View style={styles.line_style}></View>
-              <View>
-                <View
-                  style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-                  <Text style={styles.sub_title_card}>To Be Posted On - </Text>
-                  <Image
-                    style={styles.sub_title_card_img}
-                    source={require('../../assets/images/instagram.png')}
-                  />
-                </View>
-                <View>
-                  <Text style={styles.sub_title_card}>Deliverables - </Text>
-                  <View>
-                    <TouchableOpacity style={styles.real_post_box}>
+                <View style={styles.main_box}>
+                  <View style={styles.main_box_card}>
+                    <Text style={styles.main_box_card_title}>
+                      Brand Details
+                    </Text>
+                    <View style={styles.line_style}></View>
+                    <Text style={styles.company_name}>URBAN Companny</Text>
+                  </View>
+                  <View style={styles.main_box_card}>
+                    <Text style={styles.main_box_card_title}>Task Details</Text>
+                    <View style={styles.line_style}></View>
+                    <View>
+                      <Text style={styles.sub_title_card}>
+                        Campaing Type ::{' '}
+                        <Text style={styles.sub_title_card_name}> Female</Text>
+                      </Text>
+                      <Text style={styles.sub_title_card}>
+                        Product Name ::{' '}
+                        <Text style={styles.sub_title_card_name}>
+                          {' '}
+                          Whatever
+                        </Text>
+                      </Text>
+                      <Text style={styles.sub_title_card}>
+                        Product Link ::{' '}
+                        <Text style={styles.sub_title_card_name}>
+                          {' '}
+                          Some Link
+                        </Text>
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={styles.main_box_card}>
+                    <Text style={styles.main_box_card_title}>
+                      Collab Requirements
+                    </Text>
+                    <View style={styles.line_style}></View>
+                    <View>
                       <View
                         style={{
                           flex: 1,
                           flexDirection: 'row',
                           alignItems: 'center',
                         }}>
+                        <Text style={styles.sub_title_card}>
+                          To Be Posted On -{' '}
+                        </Text>
                         <Image
-                          style={styles.sub_card_real_img}
-                          source={require('../../assets/images/bx_movie-play.png')}
+                          style={styles.sub_title_card_img}
+                          source={require('../../assets/images/instagram.png')}
                         />
+                      </View>
+                      <View>
+                        <Text style={styles.sub_title_card}>
+                          Deliverables -{' '}
+                        </Text>
                         <View>
-                          <Text style={styles.sub_card_real_title}>
-                            Reals Post (Videos) X1
-                          </Text>
-                          <Text style={styles.sub_card_real_dur}>
-                            Duration - 30 - 60 Sec
-                          </Text>
+                          <TouchableOpacity style={styles.real_post_box}>
+                            <View
+                              style={{
+                                flex: 1,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                              }}>
+                              <Image
+                                style={styles.sub_card_real_img}
+                                source={require('../../assets/images/bx_movie-play.png')}
+                              />
+                              <View>
+                                <Text style={styles.sub_card_real_title}>
+                                  Reals Post (Videos) X1
+                                </Text>
+                                <Text style={styles.sub_card_real_dur}>
+                                  Duration - 30 - 60 Sec
+                                </Text>
+                              </View>
+                            </View>
+                          </TouchableOpacity>
+                          <TouchableOpacity style={styles.real_post_box}>
+                            <View
+                              style={{
+                                flex: 1,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                              }}>
+                              <Image
+                                style={styles.sub_card_real_img}
+                                source={require('../../assets/images/bx_movie-play.png')}
+                              />
+                              <View>
+                                <Text style={styles.sub_card_real_title}>
+                                  Reals Post (Videos) X1
+                                </Text>
+                                <Text style={styles.sub_card_real_dur}>
+                                  Duration - 30 - 60 Sec
+                                </Text>
+                              </View>
+                            </View>
+                          </TouchableOpacity>
                         </View>
                       </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.real_post_box}>
+                    </View>
+                  </View>
+                  <View style={styles.main_box_card}>
+                    <Text style={styles.main_box_card_title}>
+                      Creator Requirements
+                    </Text>
+                    <View style={styles.line_style}></View>
+                    <View>
                       <View
                         style={{
                           flex: 1,
-                          flexDirection: 'row',
+                          justifyContent: 'space-between',
                           alignItems: 'center',
+                          flexDirection: 'row',
                         }}>
-                        <Image
-                          style={styles.sub_card_real_img}
-                          source={require('../../assets/images/bx_movie-play.png')}
-                        />
-                        <View>
-                          <Text style={styles.sub_card_real_title}>
-                            Reals Post (Videos) X1
+                        <Text style={styles.sub_title_card}>
+                          Gander:{' '}
+                          <Text style={styles.sub_title_card_name}>
+                            {' '}
+                            Female
                           </Text>
-                          <Text style={styles.sub_card_real_dur}>
-                            Duration - 30 - 60 Sec
-                          </Text>
-                        </View>
+                        </Text>
+                        <View style={styles.active_green_circle}></View>
                       </View>
-                    </TouchableOpacity>
+                      <View
+                        style={{
+                          flex: 1,
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          flexDirection: 'row',
+                        }}>
+                        <Text style={styles.sub_title_card}>
+                          Age-Group:{' '}
+                          <Text style={styles.sub_title_card_name}> 24-36</Text>
+                        </Text>
+                        <View style={styles.active_green_circle}></View>
+                      </View>
+                      <View
+                        style={{
+                          flex: 1,
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          flexDirection: 'row',
+                        }}>
+                        <Text style={styles.sub_title_card}>
+                          Follower Range:{' '}
+                          <Text style={styles.sub_title_card_name}>
+                            {' '}
+                            50k-80k
+                          </Text>
+                        </Text>
+                        <View style={styles.active_green_circle}></View>
+                      </View>
+                      <View
+                        style={{
+                          flex: 1,
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          flexDirection: 'row',
+                        }}>
+                        <Text style={styles.sub_title_card}>
+                          Category:{' '}
+                          <Text style={styles.sub_title_card_name}>
+                            {' '}
+                            Fashion, Lifestyle Etc.
+                          </Text>
+                        </Text>
+                        <View style={styles.active_green_circle}></View>
+                      </View>
+                      <View
+                        style={{
+                          flex: 1,
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          flexDirection: 'row',
+                        }}>
+                        <Text style={styles.sub_title_card}>
+                          Location:{' '}
+                          <Text style={styles.sub_title_card_name}>
+                            {' '}
+                            Place1 ,palce 2, place 3
+                          </Text>
+                        </Text>
+                        <View style={styles.active_green_circle}></View>
+                      </View>
+                    </View>
                   </View>
                 </View>
-              </View>
-            </View>
-            <View style={styles.main_box_card}>
-              <Text style={styles.main_box_card_title}>
-                Creator Requirements
-              </Text>
-              <View style={styles.line_style}></View>
-              <View>
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                  }}>
-                  <Text style={styles.sub_title_card}>
-                    Gander:{' '}
-                    <Text style={styles.sub_title_card_name}> Female</Text>
-                  </Text>
-                  <View style={styles.active_green_circle}></View>
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                  }}>
-                  <Text style={styles.sub_title_card}>
-                    Age-Group:{' '}
-                    <Text style={styles.sub_title_card_name}> 24-36</Text>
-                  </Text>
-                  <View style={styles.active_green_circle}></View>
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                  }}>
-                  <Text style={styles.sub_title_card}>
-                    Follower Range:{' '}
-                    <Text style={styles.sub_title_card_name}> 50k-80k</Text>
-                  </Text>
-                  <View style={styles.active_green_circle}></View>
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                  }}>
-                  <Text style={styles.sub_title_card}>
-                    Category:{' '}
-                    <Text style={styles.sub_title_card_name}>
-                      {' '}
-                      Fashion, Lifestyle Etc.
-                    </Text>
-                  </Text>
-                  <View style={styles.active_green_circle}></View>
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                  }}>
-                  <Text style={styles.sub_title_card}>
-                    Location:{' '}
-                    <Text style={styles.sub_title_card_name}>
-                      {' '}
-                      Place1 ,palce 2, place 3
-                    </Text>
-                  </Text>
-                  <View style={styles.active_green_circle}></View>
+                <View style={styles.apply_button_box}>
+                  <TouchableOpacity style={styles.apply_button}>
+                    <Text style={styles.apply_button_text}>Apply</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
-            </View>
+            ) : (
+              ''
+            )}
           </View>
-          <View style={styles.apply_button_box}>
-            <TouchableOpacity style={styles.apply_button}>
-              <Text style={styles.apply_button_text}>Apply</Text>
-            </TouchableOpacity>
-          </View>
+          <View>{tabs == 'Example' ? <CompaignExample /> : ''}</View>
         </View>
       </ScrollView>
     </SafeAreaView>

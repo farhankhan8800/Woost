@@ -56,6 +56,8 @@ import BankList from '../screens/account/BankList';
 import AddBank from '../screens/account/AddBank';
 import SocialLinkVarifyBottomSheet from '../screens/SocialLinkVerifyBottomSheet';
 import CollabDetails from '../screens/collab/CollabDetails';
+import ApplyCollab from '../screens/collab/ApplyCollab';
+import Notification from '../screens/Notifications';
 
 const Tab = createBottomTabNavigator();
 
@@ -403,6 +405,61 @@ const AuthStack = ({navigation}) => {
                 width={40}
                 height={40}
                 source={require('../assets/images/ballnotify.png')}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name="Applycollab"
+        component={ApplyCollab}
+        options={{
+          headerShown: true,
+          title: 'Apply Collab',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: {
+            color: '#222',
+          },
+          headerLeft: ({tintColor}) => (
+            <TouchableOpacity
+              style={{marginLeft: 10}}
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image
+                width={45}
+                height={45}
+                source={require('../assets/images/back-button.png')}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Notification"
+        component={Notification}
+        options={{
+          headerShown: true,
+          title: 'Your Notifications',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: {
+            color: '#222',
+          },
+          headerLeft: ({tintColor}) => (
+            <TouchableOpacity
+              style={{marginLeft: 10}}
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image
+                width={45}
+                height={45}
+                source={require('../assets/images/back-button.png')}
               />
             </TouchableOpacity>
           ),
