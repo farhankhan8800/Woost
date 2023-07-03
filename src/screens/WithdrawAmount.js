@@ -17,7 +17,7 @@ const WithdrawAmount = ({navigation}) => {
       <ScrollView>
         <View style={styles.container}>
           {/* <Header navigation={navigation} /> */}
-          <View style={[styles.top_header_box]}>
+          {/* <View style={[styles.top_header_box]}>
             <Text style={[styles.top_header_text, {flex: 3}]}>My Earnings</Text>
             <View style={[styles.notify_icon, {flex: 1}]}>
               <TouchableOpacity>
@@ -28,7 +28,7 @@ const WithdrawAmount = ({navigation}) => {
                 />
               </TouchableOpacity>
             </View>
-          </View>
+          </View> */}
           <View style={styles.amount_box}>
             <Text style={styles.amount_title}>Total Withdraw</Text>
             <Text style={styles.amount_title_amount}>{'\u20B9'}384658</Text>

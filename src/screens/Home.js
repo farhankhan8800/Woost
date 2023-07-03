@@ -21,6 +21,7 @@ import {useSelector} from 'react-redux';
 import {act} from 'react-test-renderer';
 import FilterCom from '../components/Filter';
 import SuccessModal from '../components/SuccessModal';
+import LogingComponents from '../components/Loding';
 const ENDPOINT = '/campaign/home';
 const ENDURL = '/campaign/mycolab';
 const Home = ({navigation}) => {
@@ -140,8 +141,8 @@ const Home = ({navigation}) => {
   }, []);
 
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <SafeAreaView style={{flex: 1}}>
+      <ScrollView style={{flex: 1}}>
         <View style={styles.container}>
           {/* <Header navigation={navigation} /> */}
           <View style={[styles.top_header_box]}>
@@ -393,7 +394,8 @@ const Home = ({navigation}) => {
                   );
                 })
               ) : (
-                <Text style={styles.oppsNodata}>Oops No Data Found</Text>
+                // <Text style={styles.oppsNodata}>Oops No Data Found</Text>
+                <LogingComponents />
               )
             ) : null
             // changeClass == 'mycollabs' ? (
@@ -509,6 +511,7 @@ const styles = StyleSheet.create({
   oppsNodata: {
     fontSize: 23,
     fontWeight: 600,
+    flex: 1,
     textAlign: 'center',
     padding: 20,
   },

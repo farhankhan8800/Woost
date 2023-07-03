@@ -16,7 +16,8 @@ function SplashScreen({navigation}) {
         navigation.navigate('Socialprofile');
       } else if (user && user.userInfo.profile_completion_level == '1') {
         // navigation.replace('Home');
-        navigation.replace('Collabdetails');
+
+        navigation.replace('FAQscreen');
       } else {
         navigation.replace('Signup');
       }

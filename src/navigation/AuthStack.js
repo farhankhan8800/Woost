@@ -35,7 +35,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 // import { useSelector } from 'react-redux';
 import {useEffect, useState, useCallback} from 'react';
 import {ShoppingCart} from 'react-native-feather';
-import Profile from '../screens/Profile';
+
 import OTP from '../screens/Otp';
 import SignUp from '../screens/Signup';
 import SplashScreen from '../screens/Splash';
@@ -58,6 +58,11 @@ import SocialLinkVarifyBottomSheet from '../screens/SocialLinkVerifyBottomSheet'
 import CollabDetails from '../screens/collab/CollabDetails';
 import ApplyCollab from '../screens/collab/ApplyCollab';
 import Notification from '../screens/Notifications';
+import SelectChannelCategory from '../screens/profileSetup/SelectChannelCategory';
+import GetToKnowBetter from '../screens/profileSetup/GetToKnowBetter';
+import AfterAcceptancePaidBatter from '../screens/afterAcceptance/PaidBatter';
+import AfterAcceptancePerformance from '../screens/afterAcceptance/Performance';
+import FAQscreen from '../screens/FAQ';
 
 const Tab = createBottomTabNavigator();
 
@@ -154,7 +159,7 @@ const BottomTabs = ({navigation}) => {
       />
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={Home}
         options={{
           BottomTabs: false,
           unmountOnBlur: true,
@@ -195,7 +200,7 @@ const BottomTabs = ({navigation}) => {
       />
       <Tab.Screen
         name="Login1"
-        component={Profile}
+        component={Home}
         options={{
           BottomTabs: false,
           title: 'Login',
@@ -223,7 +228,7 @@ const BottomTabs = ({navigation}) => {
 
       <Tab.Screen
         name="More"
-        component={Profile}
+        component={Home}
         listeners={({navigation}) => ({
           tabPress: e => {
             e.preventDefault();
@@ -307,14 +312,94 @@ const AuthStack = ({navigation}) => {
         options={{headerShown: false, title: ''}}
       />
       <Stack.Screen
+        name="SelectChannelCategory"
+        component={SelectChannelCategory}
+        options={{headerShown: false, title: ''}}
+      />
+      <Stack.Screen
+        name="GetToKnowBetter"
+        component={GetToKnowBetter}
+        options={{headerShown: false, title: ''}}
+      />
+      <Stack.Screen
         name="Myearning"
         component={MyEarning}
-        options={{headerShown: false, title: ''}}
+        options={{
+          headerShown: true,
+          title: 'My Earning ',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: {
+            color: '#222',
+          },
+          headerLeft: ({tintColor}) => (
+            <TouchableOpacity
+              style={{marginLeft: 10}}
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image
+                width={45}
+                height={45}
+                source={require('../assets/images/back-button.png')}
+              />
+            </TouchableOpacity>
+          ),
+          headerRight: ({tintColor}) => (
+            <TouchableOpacity
+              style={{marginRight: 20}}
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image
+                width={40}
+                height={40}
+                source={require('../assets/images/ballnotify.png')}
+              />
+            </TouchableOpacity>
+          ),
+        }}
       />
       <Stack.Screen
         name="Withdraw"
         component={WithdrawAmount}
-        options={{headerShown: false, title: ''}}
+        options={{
+          headerShown: true,
+          title: 'Withdraw Amount',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: {
+            color: '#222',
+          },
+          headerLeft: ({tintColor}) => (
+            <TouchableOpacity
+              style={{marginLeft: 10}}
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image
+                width={45}
+                height={45}
+                source={require('../assets/images/back-button.png')}
+              />
+            </TouchableOpacity>
+          ),
+          headerRight: ({tintColor}) => (
+            <TouchableOpacity
+              style={{marginRight: 20}}
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image
+                width={40}
+                height={40}
+                source={require('../assets/images/ballnotify.png')}
+              />
+            </TouchableOpacity>
+          ),
+        }}
       />
       <Stack.Screen
         name="Banklist"
@@ -412,6 +497,61 @@ const AuthStack = ({navigation}) => {
       />
 
       <Stack.Screen
+        name="AfterAcceptancePaidBatter"
+        component={AfterAcceptancePaidBatter}
+        options={{
+          headerShown: true,
+          title: 'Paid & Batter',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: {
+            color: '#222',
+          },
+          headerLeft: ({tintColor}) => (
+            <TouchableOpacity
+              style={{marginLeft: 10}}
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image
+                width={45}
+                height={45}
+                source={require('../assets/images/back-button.png')}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="AfterAcceptancePerformance"
+        component={AfterAcceptancePerformance}
+        options={{
+          headerShown: true,
+          title: 'Performance',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: {
+            color: '#222',
+          },
+          headerLeft: ({tintColor}) => (
+            <TouchableOpacity
+              style={{marginLeft: 10}}
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image
+                width={45}
+                height={45}
+                source={require('../assets/images/back-button.png')}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+
+      <Stack.Screen
         name="Applycollab"
         component={ApplyCollab}
         options={{
@@ -465,32 +605,16 @@ const AuthStack = ({navigation}) => {
           ),
         }}
       />
-      <Stack.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          BottomTabs: false,
-          headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}>
-              <View style={styles.backArrow}>
-                <Image
-                  source={require('../assets/images/backArrow.png')}
-                  style={styles.backIcon}
-                />
-              </View>
-            </TouchableOpacity>
-          ),
-        }}
-      />
 
       <Stack.Screen name="OTP" component={OTP} options={{headerShown: false}} />
       <Stack.Screen
         name="Socialprofile"
         component={SocialProfile}
+        options={{headerShown: false, title: ''}}
+      />
+      <Stack.Screen
+        name="FAQscreen"
+        component={FAQscreen}
         options={{headerShown: false, title: ''}}
       />
     </Stack.Navigator>

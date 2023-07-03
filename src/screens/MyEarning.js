@@ -17,7 +17,7 @@ const MyEarning = ({navigation}) => {
       <ScrollView>
         <View style={styles.container}>
           {/* <Header navigation={navigation} /> */}
-          <View style={[styles.top_header_box]}>
+          {/* <View style={[styles.top_header_box]}>
             <Text style={[styles.top_header_text, {flex: 3}]}>My Earnings</Text>
             <View style={[styles.notify_icon, {flex: 1}]}>
               <TouchableOpacity>
@@ -28,7 +28,7 @@ const MyEarning = ({navigation}) => {
                 />
               </TouchableOpacity>
             </View>
-          </View>
+          </View> */}
           <View style={[styles.user_details]}>
             <Image
               style={{width: 70}}
